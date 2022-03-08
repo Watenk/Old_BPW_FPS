@@ -13,30 +13,50 @@ public class Shooting : MonoBehaviour
     //Pistol
     public float PistolAmmo = 6f;
     public float PistolTotalAmmo = 120f;
+    float PistolMaxReloadAmount = 6f;
     float PistolDamage = 20f;
     float PistolRange = 100f;
+    float PistolCooldownAmount = 1f;
+    public float PistolCooldown = 0f;
 
     //Shotgun
     public float ShotgunAmmo = 2f;
     public float ShotgunTotalAmmo = 24f;
+    float ShotgunMaxReloadAmount = 2f;
     float ShotgunDamage = 100f;
     float ShotgunRange = 20f;
+    float ShotgunCooldownAmount = 3f;
+    public float ShotgunCooldown = 0f;
+
 
     void Update()
     {
+
         //Weapons
         //Pistol
-        if (Input.GetButtonDown("Fire1") && EquipedWeapon == "Pistol")
+        if (EquipedWeapon == "Pistol")
         {
-            Shoot(PistolAmmo, PistolDamage, PistolRange);
-            PistolAmmo = CalcAmmo(PistolAmmo);
+            if (Input.GetButtonDown("Fire1"))
+            {
+                Shoot(PistolAmmo, PistolDamage, PistolRange, PistolCooldown);
+                PistolAmmo = CalcAmmo(PistolAmmo);
+            }
+            PistolTotalAmmo = ReloadCalc(PistolAmmo, PistolTotalAmmo, PistolMaxReloadAmount);
+            PistolAmmo = ReloadCalc2(PistolAmmo, PistolMaxReloadAmount);
+            PistolCooldown = CooldownCalc(PistolCooldown, PistolCooldownAmount);
         }
 
         //Shotgun
-        if (Input.GetButtonDown("Fire1") && EquipedWeapon == "Shotgun") 
+        if (EquipedWeapon == "Shotgun")
         {
-            Shoot(ShotgunAmmo, ShotgunDamage, ShotgunRange);
-            ShotgunAmmo = CalcAmmo(ShotgunAmmo); 
+            if (Input.GetButtonDown("Fire1"))
+            {
+                Shoot(ShotgunAmmo, ShotgunDamage, ShotgunRange, ShotgunCooldown);
+                ShotgunAmmo = CalcAmmo(ShotgunAmmo);
+            }
+            ShotgunTotalAmmo = ReloadCalc(ShotgunAmmo, ShotgunTotalAmmo, ShotgunMaxReloadAmount);
+            ShotgunAmmo = ReloadCalc2(ShotgunAmmo, ShotgunMaxReloadAmount);
+            ShotgunCooldown = CooldownCalc(ShotgunCooldown, ShotgunCooldownAmount);
         }
 
         //WeaponSwitch
@@ -51,9 +71,10 @@ public class Shooting : MonoBehaviour
         }
     }
 
-    void Shoot(float AmmoAmount, float DamageAmount, float RangeAmount)
+    //Shoot
+    void Shoot(float AmmoAmount, float DamageAmount, float RangeAmount, float Cooldown)
     {
-        if (AmmoAmount >= 1)
+        if (AmmoAmount >= 1 && Cooldown <= 0.1f)
         {
             RaycastHit Hit;
             if (Physics.Raycast(MainCam.transform.position, MainCam.transform.forward, out Hit, RangeAmount))
@@ -68,6 +89,7 @@ public class Shooting : MonoBehaviour
         }
     }
 
+    //Ammo Calc
     float CalcAmmo(float AmmoAmount)
     {
         if (AmmoAmount >= 1f)
@@ -75,5 +97,40 @@ public class Shooting : MonoBehaviour
             AmmoAmount -= 1f;
         }
         return AmmoAmount;
+    }
+
+    float ReloadCalc(float AmmoAmount, float TotalAmmo, float MaxReload)
+    {
+       if (Input.GetKeyDown("r"))
+        {
+            float ReloadAmount = MaxReload - AmmoAmount;
+            TotalAmmo -= ReloadAmount;
+        }
+        return TotalAmmo;
+    }
+
+    float ReloadCalc2(float AmmoAmount, float MaxReload)
+    {
+        if (Input.GetKeyDown("r"))
+        {
+            float ReloadAmount = MaxReload - AmmoAmount;
+            AmmoAmount += ReloadAmount;
+        }
+        return AmmoAmount;
+    }
+
+    //Cooldown
+    float CooldownCalc(float Cooldown, float CooldownAmount)
+    {
+        if (Input.GetButtonDown("Fire1") && Cooldown <= 0.1f)
+        {
+            Cooldown += CooldownAmount;
+        }
+
+        if (Cooldown >= 0f)
+        {
+            Cooldown -= Time.deltaTime;
+        }
+        return Cooldown;
     }
 }
