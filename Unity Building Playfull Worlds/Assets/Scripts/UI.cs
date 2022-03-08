@@ -59,5 +59,11 @@ public class UI : MonoBehaviour
             CurrentAmmo.text = ShootingScript.ShotgunAmmo.ToString() + "/2";
             TotalAmmo.text = ShootingScript.ShotgunTotalAmmo.ToString();
         }
+
+        if (ShootingScript.EquipedWeapon == "Machinegun")
+        {
+            CurrentAmmo.text = ShootingScript.MachinegunAmmo.ToString() + "/32";
+            TotalAmmo.text = ShootingScript.MachinegunTotalAmmo.ToString();
+        }
     }
 }

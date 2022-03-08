@@ -28,15 +28,39 @@ public class Shooting : MonoBehaviour
     float ShotgunCooldownAmount = 3f;
     public float ShotgunCooldown = 0f;
 
+    //Machinegun
+    public float MachinegunAmmo = 32f;
+    public float MachinegunTotalAmmo = 240f;
+    float MachinegunMaxReloadAmount = 32f;
+    float MachinegunDamage = 10f;
+    float MachinegunRange = 75f;
+    float MachinegunCooldownAmount = 0.2f;
+    public float MachinegunCooldown = 0f;
+
 
     void Update()
     {
+        //WeaponSwitch
+        if (Input.GetKeyDown("1"))
+        {
+            EquipedWeapon = "Pistol";
+        }
+
+        if (Input.GetKeyDown("2"))
+        {
+            EquipedWeapon = "Shotgun";
+        }
+
+        if (Input.GetKeyDown("3"))
+        {
+            EquipedWeapon = "Machinegun";
+        }
 
         //Weapons
         //Pistol
         if (EquipedWeapon == "Pistol")
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") && PistolCooldown <= 0.1f)
             {
                 Shoot(PistolAmmo, PistolDamage, PistolRange, PistolCooldown);
                 PistolAmmo = CalcAmmo(PistolAmmo);
@@ -49,7 +73,7 @@ public class Shooting : MonoBehaviour
         //Shotgun
         if (EquipedWeapon == "Shotgun")
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") && ShotgunCooldown <= 0.1f)
             {
                 Shoot(ShotgunAmmo, ShotgunDamage, ShotgunRange, ShotgunCooldown);
                 ShotgunAmmo = CalcAmmo(ShotgunAmmo);
@@ -59,15 +83,17 @@ public class Shooting : MonoBehaviour
             ShotgunCooldown = CooldownCalc(ShotgunCooldown, ShotgunCooldownAmount);
         }
 
-        //WeaponSwitch
-        if (Input.GetKeyDown("1"))
+        //Machinegun
+        if (EquipedWeapon == "Machinegun")
         {
-            EquipedWeapon = "Pistol";
-        }
-
-        if (Input.GetKeyDown("2"))
-        {
-            EquipedWeapon = "Shotgun";
+            if (Input.GetButton("Fire1") && MachinegunCooldown <= 0.1f)
+            {
+                Shoot(MachinegunAmmo, MachinegunDamage, MachinegunRange, MachinegunCooldown);
+                MachinegunAmmo = CalcAmmo(MachinegunAmmo);
+            }
+            MachinegunTotalAmmo = ReloadCalc(MachinegunAmmo, MachinegunTotalAmmo, MachinegunMaxReloadAmount);
+            MachinegunAmmo = ReloadCalc2(MachinegunAmmo, MachinegunMaxReloadAmount);
+            MachinegunCooldown = CooldownCalc(MachinegunCooldown, MachinegunCooldownAmount);
         }
     }
 
