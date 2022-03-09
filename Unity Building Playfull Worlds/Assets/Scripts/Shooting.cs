@@ -5,6 +5,8 @@ using UnityEngine;
 public class Shooting : MonoBehaviour
 {
     public Camera MainCam;
+    private PistolScript Pistol;
+    private ShotgunScript Shotgun;
 
     //Weapons
 
@@ -38,17 +40,35 @@ public class Shooting : MonoBehaviour
     public float MachinegunCooldown = 0f;
 
 
+    private void Start()
+    {
+        Pistol = FindObjectOfType<PistolScript>();
+        Shotgun = FindObjectOfType<ShotgunScript>();
+
+        //Disable shotgun
+        Shotgun.gameObject.SetActive(false);
+
+        //Disable MachineGun
+
+    }
+
     void Update()
     {
         //WeaponSwitch
         if (Input.GetKeyDown("1"))
         {
             EquipedWeapon = "Pistol";
+            //MachineGun False
+            Shotgun.gameObject.SetActive(false);
+            Pistol.gameObject.SetActive(true);
         }
 
         if (Input.GetKeyDown("2"))
         {
             EquipedWeapon = "Shotgun";
+            Pistol.gameObject.SetActive(false);
+            //MachineGun False
+            Shotgun.gameObject.SetActive(true);
         }
 
         if (Input.GetKeyDown("3"))
