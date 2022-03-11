@@ -7,6 +7,7 @@ public class Shooting : MonoBehaviour
     public Camera MainCam;
     private PistolScript Pistol;
     private ShotgunScript Shotgun;
+    private MachinegunScript Machinegun;
     private UI UIScript;
 
     public float reloadTime = 0f;
@@ -47,13 +48,14 @@ public class Shooting : MonoBehaviour
     {
         Pistol = FindObjectOfType<PistolScript>();
         Shotgun = FindObjectOfType<ShotgunScript>();
+        Machinegun = FindObjectOfType<MachinegunScript>();
         UIScript = FindObjectOfType<UI>();
 
-        //Disable shotgun
+        //Disable shotgun model
         Shotgun.gameObject.SetActive(false);
 
-        //Disable MachineGun
-
+        //Disable MachineGun model
+        Machinegun.gameObject.SetActive(false);
     }
 
     void Update()
@@ -62,9 +64,9 @@ public class Shooting : MonoBehaviour
         if (Input.GetKeyDown("1"))
         {
             EquipedWeapon = "Pistol";
-            //MachineGun False
             Shotgun.gameObject.SetActive(false);
             Pistol.gameObject.SetActive(true);
+            Machinegun.gameObject.SetActive(false);
 
             UIScript.ReloadTimeSlider.maxValue = PistolCooldownAmount;
         }
@@ -73,8 +75,8 @@ public class Shooting : MonoBehaviour
         {
             EquipedWeapon = "Shotgun";
             Pistol.gameObject.SetActive(false);
-            //MachineGun False
             Shotgun.gameObject.SetActive(true);
+            Machinegun.gameObject.SetActive(false);
 
             UIScript.ReloadTimeSlider.maxValue = ShotgunCooldownAmount;
         }
@@ -82,6 +84,9 @@ public class Shooting : MonoBehaviour
         if (Input.GetKeyDown("3"))
         {
             EquipedWeapon = "Machinegun";
+            Pistol.gameObject.SetActive(false);
+            Shotgun.gameObject.SetActive(false);
+            Machinegun.gameObject.SetActive(true);
 
             UIScript.ReloadTimeSlider.maxValue = MachinegunCooldownAmount;
         }
@@ -182,6 +187,11 @@ public class Shooting : MonoBehaviour
     float CooldownCalc(float Cooldown, float CooldownAmount)
     {
         if (Input.GetButtonDown("Fire1") && Cooldown <= 0.1f)
+        {
+            Cooldown += CooldownAmount;
+        }
+
+        if (Input.GetButton("Fire1") && Cooldown <= 0.1f && EquipedWeapon == "Machinegun")
         {
             Cooldown += CooldownAmount;
         }
