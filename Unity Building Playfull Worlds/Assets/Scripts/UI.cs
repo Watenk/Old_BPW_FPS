@@ -18,6 +18,9 @@ public class UI : MonoBehaviour
     public Text CurrentAmmo;
     public Text TotalAmmo;
 
+    //reload
+    public Slider ReloadTimeSlider;
+
     
     //--------------------------------------------//
 
@@ -32,6 +35,7 @@ public class UI : MonoBehaviour
         JumpCoolDown();
         Health();
         CalcAmmo();
+        Reload();
     }
 
     //----------------------------------------------------//
@@ -65,5 +69,10 @@ public class UI : MonoBehaviour
             CurrentAmmo.text = ShootingScript.MachinegunAmmo.ToString() + "/32";
             TotalAmmo.text = ShootingScript.MachinegunTotalAmmo.ToString();
         }
+    }
+
+    void Reload()
+    {
+        ReloadTimeSlider.value = ShootingScript.reloadTime;
     }
 }

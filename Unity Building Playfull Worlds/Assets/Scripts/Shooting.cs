@@ -7,6 +7,9 @@ public class Shooting : MonoBehaviour
     public Camera MainCam;
     private PistolScript Pistol;
     private ShotgunScript Shotgun;
+    private UI UIScript;
+
+    public float reloadTime = 0f;
 
     //Weapons
 
@@ -44,6 +47,7 @@ public class Shooting : MonoBehaviour
     {
         Pistol = FindObjectOfType<PistolScript>();
         Shotgun = FindObjectOfType<ShotgunScript>();
+        UIScript = FindObjectOfType<UI>();
 
         //Disable shotgun
         Shotgun.gameObject.SetActive(false);
@@ -61,6 +65,8 @@ public class Shooting : MonoBehaviour
             //MachineGun False
             Shotgun.gameObject.SetActive(false);
             Pistol.gameObject.SetActive(true);
+
+            UIScript.ReloadTimeSlider.maxValue = PistolCooldownAmount;
         }
 
         if (Input.GetKeyDown("2"))
@@ -69,11 +75,15 @@ public class Shooting : MonoBehaviour
             Pistol.gameObject.SetActive(false);
             //MachineGun False
             Shotgun.gameObject.SetActive(true);
+
+            UIScript.ReloadTimeSlider.maxValue = ShotgunCooldownAmount;
         }
 
         if (Input.GetKeyDown("3"))
         {
             EquipedWeapon = "Machinegun";
+
+            UIScript.ReloadTimeSlider.maxValue = MachinegunCooldownAmount;
         }
 
         //Weapons
@@ -88,6 +98,7 @@ public class Shooting : MonoBehaviour
             PistolTotalAmmo = ReloadCalc(PistolAmmo, PistolTotalAmmo, PistolMaxReloadAmount);
             PistolAmmo = ReloadCalc2(PistolAmmo, PistolMaxReloadAmount);
             PistolCooldown = CooldownCalc(PistolCooldown, PistolCooldownAmount);
+            reloadTime = PistolCooldown;
         }
 
         //Shotgun
@@ -101,6 +112,7 @@ public class Shooting : MonoBehaviour
             ShotgunTotalAmmo = ReloadCalc(ShotgunAmmo, ShotgunTotalAmmo, ShotgunMaxReloadAmount);
             ShotgunAmmo = ReloadCalc2(ShotgunAmmo, ShotgunMaxReloadAmount);
             ShotgunCooldown = CooldownCalc(ShotgunCooldown, ShotgunCooldownAmount);
+            reloadTime = ShotgunCooldown;
         }
 
         //Machinegun
@@ -114,6 +126,7 @@ public class Shooting : MonoBehaviour
             MachinegunTotalAmmo = ReloadCalc(MachinegunAmmo, MachinegunTotalAmmo, MachinegunMaxReloadAmount);
             MachinegunAmmo = ReloadCalc2(MachinegunAmmo, MachinegunMaxReloadAmount);
             MachinegunCooldown = CooldownCalc(MachinegunCooldown, MachinegunCooldownAmount);
+            reloadTime = MachinegunCooldown;
         }
     }
 
