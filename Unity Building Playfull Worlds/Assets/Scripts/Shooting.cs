@@ -11,6 +11,7 @@ public class Shooting : MonoBehaviour
     private UI UIScript;
 
     public float reloadTime = 0f;
+    bool outOfAmmoBool = false;
 
     //Weapons
 
@@ -104,6 +105,7 @@ public class Shooting : MonoBehaviour
             PistolAmmo = ReloadCalc2(PistolAmmo, PistolMaxReloadAmount);
             PistolCooldown = CooldownCalc(PistolCooldown, PistolCooldownAmount);
             reloadTime = PistolCooldown;
+            CheckOutOfAmmo(PistolAmmo);
         }
 
         //Shotgun
@@ -118,6 +120,7 @@ public class Shooting : MonoBehaviour
             ShotgunAmmo = ReloadCalc2(ShotgunAmmo, ShotgunMaxReloadAmount);
             ShotgunCooldown = CooldownCalc(ShotgunCooldown, ShotgunCooldownAmount);
             reloadTime = ShotgunCooldown;
+            CheckOutOfAmmo(ShotgunAmmo);
         }
 
         //Machinegun
@@ -132,6 +135,18 @@ public class Shooting : MonoBehaviour
             MachinegunAmmo = ReloadCalc2(MachinegunAmmo, MachinegunMaxReloadAmount);
             MachinegunCooldown = CooldownCalc(MachinegunCooldown, MachinegunCooldownAmount);
             reloadTime = MachinegunCooldown;
+            CheckOutOfAmmo(MachinegunAmmo);
+        }
+
+        //Out Of Ammo
+        if (outOfAmmoBool == true)
+        {
+            UIScript.outOfAmmo.gameObject.SetActive(true);
+        }
+
+        if (outOfAmmoBool == false)
+        {
+            UIScript.outOfAmmo.gameObject.SetActive(false);
         }
     }
 
@@ -201,5 +216,18 @@ public class Shooting : MonoBehaviour
             Cooldown -= Time.deltaTime;
         }
         return Cooldown;
+    }
+
+    void CheckOutOfAmmo(float currentAmmo)
+    {
+        if (currentAmmo <= 0f)
+        {
+            outOfAmmoBool = true;
+        }
+
+        if (currentAmmo >= 0.1f)
+        {
+            outOfAmmoBool = false;
+        }
     }
 }

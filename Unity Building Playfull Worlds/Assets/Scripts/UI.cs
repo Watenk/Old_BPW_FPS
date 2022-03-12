@@ -20,6 +20,7 @@ public class UI : MonoBehaviour
 
     //reload
     public Slider ReloadTimeSlider;
+    public Text outOfAmmo;
 
     
     //--------------------------------------------//
