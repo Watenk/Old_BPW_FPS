@@ -171,14 +171,13 @@ public class Shooting : MonoBehaviour
                 {
                     Enemy.TakeDamage(DamageAmount);
                 }
-
-                shootParticle.Play();
-
-                //Bullet
-                Rigidbody InstantiatedBullet;
-                InstantiatedBullet = Instantiate(Bullet, GunPos.position, GunPos.rotation);
-                InstantiatedBullet.AddForce(GunPos.forward * (Bulletspeed * Time.deltaTime));
             }
+            shootParticle.Play();
+
+            //Bullet
+            Rigidbody InstantiatedBullet;
+            InstantiatedBullet = Instantiate(Bullet, GunPos.position, GunPos.rotation);
+            InstantiatedBullet.AddForce(GunPos.forward * (Bulletspeed * Time.deltaTime));
         }
     }
 
