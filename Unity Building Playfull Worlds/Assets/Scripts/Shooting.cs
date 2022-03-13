@@ -13,6 +13,12 @@ public class Shooting : MonoBehaviour
     public float reloadTime = 0f;
     bool outOfAmmoBool = false;
 
+    //bullet
+    public ParticleSystem shootParticle;
+    public Rigidbody Bullet;
+    float Bulletspeed = 5000000f;
+    public Transform GunPos;
+
     //Weapons
 
     public string EquipedWeapon = "Pistol";
@@ -158,12 +164,20 @@ public class Shooting : MonoBehaviour
             RaycastHit Hit;
             if (Physics.Raycast(MainCam.transform.position, MainCam.transform.forward, out Hit, RangeAmount))
             {
+                //Raycast
                 Enemy Enemy = Hit.transform.GetComponent<Enemy>();
 
                 if (Enemy != null)
                 {
                     Enemy.TakeDamage(DamageAmount);
                 }
+
+                shootParticle.Play();
+
+                //Bullet
+                Rigidbody InstantiatedBullet;
+                InstantiatedBullet = Instantiate(Bullet, GunPos.position, GunPos.rotation);
+                InstantiatedBullet.AddForce(GunPos.forward * (Bulletspeed * Time.deltaTime));
             }
         }
     }
