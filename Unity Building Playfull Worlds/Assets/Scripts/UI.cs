@@ -20,9 +20,11 @@ public class UI : MonoBehaviour
 
     //reload
     public Slider ReloadTimeSlider;
-    public Text outOfAmmo;
+    public Text needToReloadText;
+    public float currentAmmoAmount;
+    bool needToReload = false;
 
-    
+
     //--------------------------------------------//
 
     void Start()
@@ -75,5 +77,27 @@ public class UI : MonoBehaviour
     void Reload()
     {
         ReloadTimeSlider.value = ShootingScript.reloadTime;
+
+        //Need te reload?
+        if (currentAmmoAmount <= 0f)
+        {
+            needToReload = true;
+        }
+
+        if (currentAmmoAmount >= 0.1f)
+        {
+            needToReload = false;
+        }
+
+        //Reload Text
+        if (needToReload == true)
+        {
+            needToReloadText.gameObject.SetActive(true);
+        }
+
+        if (needToReload == false)
+        {
+            needToReloadText.gameObject.SetActive(false);
+        }
     }
 }

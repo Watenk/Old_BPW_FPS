@@ -11,7 +11,6 @@ public class Shooting : MonoBehaviour
     private UI UIScript;
 
     public float reloadTime = 0f;
-    bool outOfAmmoBool = false;
 
     //bullet
     public ParticleSystem shootParticle;
@@ -111,7 +110,7 @@ public class Shooting : MonoBehaviour
             PistolAmmo = ReloadCalc2(PistolAmmo, PistolMaxReloadAmount);
             PistolCooldown = CooldownCalc(PistolCooldown, PistolCooldownAmount);
             reloadTime = PistolCooldown;
-            CheckOutOfAmmo(PistolAmmo);
+            CurrentAmmo(PistolAmmo);
         }
 
         //Shotgun
@@ -126,7 +125,7 @@ public class Shooting : MonoBehaviour
             ShotgunAmmo = ReloadCalc2(ShotgunAmmo, ShotgunMaxReloadAmount);
             ShotgunCooldown = CooldownCalc(ShotgunCooldown, ShotgunCooldownAmount);
             reloadTime = ShotgunCooldown;
-            CheckOutOfAmmo(ShotgunAmmo);
+            CurrentAmmo(ShotgunAmmo);
         }
 
         //Machinegun
@@ -141,18 +140,7 @@ public class Shooting : MonoBehaviour
             MachinegunAmmo = ReloadCalc2(MachinegunAmmo, MachinegunMaxReloadAmount);
             MachinegunCooldown = CooldownCalc(MachinegunCooldown, MachinegunCooldownAmount);
             reloadTime = MachinegunCooldown;
-            CheckOutOfAmmo(MachinegunAmmo);
-        }
-
-        //Out Of Ammo
-        if (outOfAmmoBool == true)
-        {
-            UIScript.outOfAmmo.gameObject.SetActive(true);
-        }
-
-        if (outOfAmmoBool == false)
-        {
-            UIScript.outOfAmmo.gameObject.SetActive(false);
+            CurrentAmmo(MachinegunAmmo);
         }
     }
 
@@ -231,16 +219,8 @@ public class Shooting : MonoBehaviour
         return Cooldown;
     }
 
-    void CheckOutOfAmmo(float currentAmmo)
+    void CurrentAmmo(float currentAmmoAmount)
     {
-        if (currentAmmo <= 0f)
-        {
-            outOfAmmoBool = true;
-        }
-
-        if (currentAmmo >= 0.1f)
-        {
-            outOfAmmoBool = false;
-        }
+        UIScript.currentAmmoAmount = currentAmmoAmount;
     }
 }
