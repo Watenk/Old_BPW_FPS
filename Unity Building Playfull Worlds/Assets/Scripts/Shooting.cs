@@ -21,6 +21,8 @@ public class Shooting : MonoBehaviour
     //Weapons
 
     public string EquipedWeapon = "Pistol";
+    bool ShotgunUnlocked = false;
+    bool MachinegunUnlocked = false;
 
     //Pistol
     public float PistolAmmo = 6f;
@@ -77,7 +79,7 @@ public class Shooting : MonoBehaviour
             UIScript.ReloadTimeSlider.maxValue = PistolCooldownAmount;
         }
 
-        if (Input.GetKeyDown("2"))
+        if (Input.GetKeyDown("2") && ShotgunUnlocked == true)
         {
             EquipedWeapon = "Shotgun";
             Pistol.gameObject.SetActive(false);
@@ -87,7 +89,7 @@ public class Shooting : MonoBehaviour
             UIScript.ReloadTimeSlider.maxValue = ShotgunCooldownAmount;
         }
 
-        if (Input.GetKeyDown("3"))
+        if (Input.GetKeyDown("3") && MachinegunUnlocked == true)
         {
             EquipedWeapon = "Machinegun";
             Pistol.gameObject.SetActive(false);
