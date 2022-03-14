@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     public State state;
 
     //Agent
-    public float ViewDistance = 10f;
+    public float ViewDistance = 30f;
     public Transform[] PatrolPoints;
     private int PatrolPoint;
     private NavMeshAgent MeshAgent;
