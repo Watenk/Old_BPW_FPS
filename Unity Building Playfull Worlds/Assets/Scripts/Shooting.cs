@@ -17,9 +17,9 @@ public class Shooting : MonoBehaviour
     float ShotflashCooldownAmount = 0.2f;
     float ShotflashCooldown;
     bool ShotflashLightIsOn = false;
+    public ParticleSystem ShotParticles;
 
     //bullet
-    public ParticleSystem shootParticle;
     public Rigidbody Bullet;
     float Bulletspeed = 5000000f;
     public Transform GunPos;
@@ -170,7 +170,8 @@ public class Shooting : MonoBehaviour
                     Enemy.TakeDamage(DamageAmount);
                 }
             }
-            shootParticle.Play();
+
+            ShotParticles.Play();
 
             //Shot Flash
             ShotLight.SetActive(true);
