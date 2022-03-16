@@ -12,6 +12,12 @@ public class Shooting : MonoBehaviour
 
     public float reloadTime = 0f;
 
+    //ShotFlash
+    public GameObject ShotLight;
+    float ShotflashCooldownAmount = 0.2f;
+    float ShotflashCooldown;
+    bool ShotflashLightIsOn = false;
+
     //bullet
     public ParticleSystem shootParticle;
     public Rigidbody Bullet;
@@ -31,7 +37,7 @@ public class Shooting : MonoBehaviour
     float PistolDamage = 20f;
     float PistolRange = 100f;
     float PistolCooldownAmount = 1f;
-    public float PistolCooldown = 0f;
+    public float PistolCooldown;
 
     //Shotgun
     public float ShotgunAmmo = 2f;
@@ -40,7 +46,7 @@ public class Shooting : MonoBehaviour
     float ShotgunDamage = 100f;
     float ShotgunRange = 20f;
     float ShotgunCooldownAmount = 3f;
-    public float ShotgunCooldown = 0f;
+    public float ShotgunCooldown;
 
     //Machinegun
     public float MachinegunAmmo = 32f;
@@ -49,7 +55,7 @@ public class Shooting : MonoBehaviour
     float MachinegunDamage = 10f;
     float MachinegunRange = 75f;
     float MachinegunCooldownAmount = 0.2f;
-    public float MachinegunCooldown = 0f;
+    public float MachinegunCooldown;
 
 
     private void Start()
@@ -103,7 +109,7 @@ public class Shooting : MonoBehaviour
         //Pistol
         if (EquipedWeapon == "Pistol")
         {
-            if (Input.GetButtonDown("Fire1") && PistolCooldown <= 0.1f)
+            if (Input.GetButtonDown("Fire1") && PistolCooldown <= 0.01f)
             {
                 Shoot(PistolAmmo, PistolDamage, PistolRange, PistolCooldown);
                 PistolAmmo = CalcAmmo(PistolAmmo);
@@ -118,7 +124,7 @@ public class Shooting : MonoBehaviour
         //Shotgun
         if (EquipedWeapon == "Shotgun")
         {
-            if (Input.GetButtonDown("Fire1") && ShotgunCooldown <= 0.1f)
+            if (Input.GetButtonDown("Fire1") && ShotgunCooldown <= 0.01f)
             {
                 Shoot(ShotgunAmmo, ShotgunDamage, ShotgunRange, ShotgunCooldown);
                 ShotgunAmmo = CalcAmmo(ShotgunAmmo);
@@ -133,7 +139,7 @@ public class Shooting : MonoBehaviour
         //Machinegun
         if (EquipedWeapon == "Machinegun")
         {
-            if (Input.GetButton("Fire1") && MachinegunCooldown <= 0.1f)
+            if (Input.GetButton("Fire1") && MachinegunCooldown <= 0.01f)
             {
                 Shoot(MachinegunAmmo, MachinegunDamage, MachinegunRange, MachinegunCooldown);
                 MachinegunAmmo = CalcAmmo(MachinegunAmmo);
@@ -144,12 +150,14 @@ public class Shooting : MonoBehaviour
             reloadTime = MachinegunCooldown;
             CurrentAmmo(MachinegunAmmo);
         }
+
+        ShotFlash();
     }
 
     //Shoot
     void Shoot(float AmmoAmount, float DamageAmount, float RangeAmount, float Cooldown)
     {
-        if (AmmoAmount >= 1 && Cooldown <= 0.1f)
+        if (AmmoAmount >= 1 && Cooldown <= 0.01f)
         {
             RaycastHit Hit;
             if (Physics.Raycast(MainCam.transform.position, MainCam.transform.forward, out Hit, RangeAmount))
@@ -164,10 +172,29 @@ public class Shooting : MonoBehaviour
             }
             shootParticle.Play();
 
+            //Shot Flash
+            ShotLight.SetActive(true);
+            ShotflashCooldown = ShotflashCooldownAmount;
+            ShotflashLightIsOn = true;
+
             //Bullet
             Rigidbody InstantiatedBullet;
             InstantiatedBullet = Instantiate(Bullet, GunPos.position, GunPos.rotation);
             InstantiatedBullet.AddForce(GunPos.forward * (Bulletspeed * Time.deltaTime));
+        }
+    }
+
+    void ShotFlash()
+    {
+        if (ShotflashCooldown >= 0f)
+        {
+            ShotflashCooldown -= Time.deltaTime;
+        }
+
+        if (ShotflashCooldown <= 0.01f && ShotflashLightIsOn == true)
+        {
+            ShotLight.SetActive(false);
+            ShotflashLightIsOn = false;
         }
     }
 
@@ -204,12 +231,12 @@ public class Shooting : MonoBehaviour
     //Cooldown
     float CooldownCalc(float Cooldown, float CooldownAmount)
     {
-        if (Input.GetButtonDown("Fire1") && Cooldown <= 0.1f)
+        if (Input.GetButtonDown("Fire1") && Cooldown <= 0.01f)
         {
             Cooldown += CooldownAmount;
         }
 
-        if (Input.GetButton("Fire1") && Cooldown <= 0.1f && EquipedWeapon == "Machinegun")
+        if (Input.GetButton("Fire1") && Cooldown <= 0.01f && EquipedWeapon == "Machinegun")
         {
             Cooldown += CooldownAmount;
         }
