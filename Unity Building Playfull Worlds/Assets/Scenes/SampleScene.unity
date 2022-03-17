@@ -8187,7 +8187,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 76e46bb1bd849a4448e9940e6f80b327, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76e46bb1bd849a4448e9940e6f80b327, type: 3}
@@ -10320,26 +10320,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainCam: {fileID: 963194227}
-  CurrentAmmoAmount: 0
-  EquipedWeapon: Pistol
+  currentAmmo: 0
+  CurrentWeapon: Pistol
   Bullet: {fileID: 6609766549259869126, guid: 13c59b019279ceb43a00ffeb3d914394, type: 3}
   GunPos: {fileID: 436428037}
-  reloadTime: 0
+  currentReloadTime: 0
   currentReloadShootCooldown: 0
   ShotLight: {fileID: 1035291043}
   ShotParticles: {fileID: 504389599}
   PistolAmmo: 6
   PistolTotalAmmo: 120
-  PistolCooldown: 0
+  PistolShootCooldown: 0
   reloadShootCooldownAmountPistol: 2
   ShotgunAmmo: 2
   ShotgunTotalAmmo: 24
-  ShotgunCooldown: 0
+  ShotgunShootCooldown: 0
   reloadShootCooldownAmountShotgun: 2
   MachinegunAmmo: 32
   MachinegunTotalAmmo: 240
-  MachinegunCooldown: 0
+  MachinegunShootCooldown: 0
   reloadShootCooldownAmountMachinegun: 2
+  PistolArray:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  ShotgunArray:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  MachinegunArray:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12899,7 +12923,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7b672b665e2a4544bade6aae34faf52e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b672b665e2a4544bade6aae34faf52e, type: 3}

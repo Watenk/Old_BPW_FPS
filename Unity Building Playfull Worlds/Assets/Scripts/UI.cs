@@ -55,36 +55,36 @@ public class UI : MonoBehaviour
 
     void CalcAmmo()
     {
-        if (ShootingScript.EquipedWeapon == "Pistol")
+        if (ShootingScript.CurrentWeapon == "Pistol")
         {
-            CurrentAmmo.text = ShootingScript.PistolAmmo.ToString() + "/6";
-            TotalAmmo.text = ShootingScript.PistolTotalAmmo.ToString();
+            CurrentAmmo.text = ShootingScript.PistolArray[1].ToString() + "/6";
+            TotalAmmo.text = ShootingScript.PistolArray[2].ToString();
         }
 
-        if (ShootingScript.EquipedWeapon == "Shotgun")
+        if (ShootingScript.CurrentWeapon == "Shotgun")
         {
-            CurrentAmmo.text = ShootingScript.ShotgunAmmo.ToString() + "/2";
-            TotalAmmo.text = ShootingScript.ShotgunTotalAmmo.ToString();
+            CurrentAmmo.text = ShootingScript.ShotgunArray[1].ToString() + "/2";
+            TotalAmmo.text = ShootingScript.ShotgunArray[2].ToString();
         }
 
-        if (ShootingScript.EquipedWeapon == "Machinegun")
+        if (ShootingScript.CurrentWeapon == "Machinegun")
         {
-            CurrentAmmo.text = ShootingScript.MachinegunAmmo.ToString() + "/32";
-            TotalAmmo.text = ShootingScript.MachinegunTotalAmmo.ToString();
+            CurrentAmmo.text = ShootingScript.MachinegunArray[1].ToString() + "/32";
+            TotalAmmo.text = ShootingScript.MachinegunArray[2].ToString();
         }
     }
 
     void Reload()
     {
-        ReloadTimeSlider.value = ShootingScript.reloadTime;
+        ReloadTimeSlider.value = ShootingScript.currentReloadTime;
 
         //Need te reload?
-        if (ShootingScript.CurrentAmmoAmount <= 0f)
+        if (ShootingScript.currentAmmo <= 0f)
         {
             needToReload = true;
         }
 
-        if (ShootingScript.CurrentAmmoAmount >= 0.1f)
+        if (ShootingScript.currentAmmo >= 0.1f)
         {
             needToReload = false;
         }
@@ -100,22 +100,22 @@ public class UI : MonoBehaviour
             needToReloadText.gameObject.SetActive(false);
         }
 
-        //Reloading...
-        ReloadingSlider.value = ShootingScript.currentReloadShootCooldown;
+        ////Reloading...
+        //ReloadingSlider.value = ShootingScript.currentReloadShootCooldown;
 
-        if (ShootingScript.EquipedWeapon == "Pistol")
-        {
-            ReloadingSlider.maxValue = ShootingScript.reloadShootCooldownAmountPistol;
-        }
+        //if (ShootingScript.CurrentWeapon == "Pistol")
+        //{
+        //    ReloadingSlider.maxValue = ShootingScript.reloadShootCooldownAmountPistol;
+        //}
 
-        if (ShootingScript.EquipedWeapon == "Shotgun")
-        {
-            ReloadingSlider.maxValue = ShootingScript.reloadShootCooldownAmountShotgun;
-        }
+        //if (ShootingScript.CurrentWeapon == "Shotgun")
+        //{
+        //    ReloadingSlider.maxValue = ShootingScript.reloadShootCooldownAmountShotgun;
+        //}
 
-        if (ShootingScript.EquipedWeapon == "Machinegun")
-        {
-            ReloadingSlider.maxValue = ShootingScript.reloadShootCooldownAmountMachinegun;
-        }
+        //if (ShootingScript.CurrentWeapon == "Machinegun")
+        //{
+        //    ReloadingSlider.maxValue = ShootingScript.reloadShootCooldownAmountMachinegun;
+        //}
     }
 }
