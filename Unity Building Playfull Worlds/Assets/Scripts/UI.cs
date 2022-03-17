@@ -19,9 +19,9 @@ public class UI : MonoBehaviour
     public Text TotalAmmo;
 
     //reload
+    public Slider ReloadingSlider;
     public Slider ReloadTimeSlider;
     public Text needToReloadText;
-    public float currentAmmoAmount;
     bool needToReload = false;
 
 
@@ -79,12 +79,12 @@ public class UI : MonoBehaviour
         ReloadTimeSlider.value = ShootingScript.reloadTime;
 
         //Need te reload?
-        if (currentAmmoAmount <= 0f)
+        if (ShootingScript.CurrentAmmoAmount <= 0f)
         {
             needToReload = true;
         }
 
-        if (currentAmmoAmount >= 0.1f)
+        if (ShootingScript.CurrentAmmoAmount >= 0.1f)
         {
             needToReload = false;
         }
@@ -98,6 +98,24 @@ public class UI : MonoBehaviour
         if (needToReload == false)
         {
             needToReloadText.gameObject.SetActive(false);
+        }
+
+        //Reloading...
+        ReloadingSlider.value = ShootingScript.currentReloadShootCooldown;
+
+        if (ShootingScript.EquipedWeapon == "Pistol")
+        {
+            ReloadingSlider.maxValue = ShootingScript.reloadShootCooldownAmountPistol;
+        }
+
+        if (ShootingScript.EquipedWeapon == "Shotgun")
+        {
+            ReloadingSlider.maxValue = ShootingScript.reloadShootCooldownAmountShotgun;
+        }
+
+        if (ShootingScript.EquipedWeapon == "Machinegun")
+        {
+            ReloadingSlider.maxValue = ShootingScript.reloadShootCooldownAmountMachinegun;
         }
     }
 }
