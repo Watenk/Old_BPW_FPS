@@ -70,7 +70,6 @@ public class Shooting : MonoBehaviour
     public float[] ShotgunArray = new float[7];
     public float[] MachinegunArray = new float[7];
 
-
     //--------------------------------------------------//
 
     private void Start()
@@ -80,7 +79,11 @@ public class Shooting : MonoBehaviour
         Shotgun = FindObjectOfType<ShotgunScript>();
         Machinegun = FindObjectOfType<MachinegunScript>();
         UIScript = FindObjectOfType<UI>();
+        //Disable Shotgun And Machinegun
+        Shotgun.gameObject.SetActive(false);
+        Machinegun.gameObject.SetActive(false);
         //Arrays
+        //Pistol
         PistolArray[0] = PistolShootCooldown;
         PistolArray[1] = PistolAmmo;
         PistolArray[2] = PistolTotalAmmo;
@@ -88,7 +91,7 @@ public class Shooting : MonoBehaviour
         PistolArray[4] = PistolDamage;
         PistolArray[5] = PistolRange;
         PistolArray[6] = PistolShootCooldownAmount;
-
+        //Shotgun
         ShotgunArray[0] = ShotgunShootCooldown;
         ShotgunArray[1] = ShotgunAmmo;
         ShotgunArray[2] = ShotgunTotalAmmo;
@@ -96,7 +99,7 @@ public class Shooting : MonoBehaviour
         ShotgunArray[4] = ShotgunDamage;
         ShotgunArray[5] = ShotgunRange;
         ShotgunArray[6] = ShotgunShootCooldownAmount;
-
+        //Machinegun
         MachinegunArray[0] = MachinegunShootCooldown;
         MachinegunArray[1] = MachinegunAmmo;
         MachinegunArray[2] = MachinegunTotalAmmo;
@@ -118,7 +121,7 @@ public class Shooting : MonoBehaviour
             Pistol.gameObject.SetActive(true);
             Machinegun.gameObject.SetActive(false);
 
-            UIScript.ReloadTimeSlider.maxValue = PistolShootCooldownAmount;
+            UIScript.ReloadTimeSlider.maxValue = PistolArray[6];
         }
 
         if (Input.GetKeyDown("2") && ShotgunUnlocked == true)
@@ -128,7 +131,7 @@ public class Shooting : MonoBehaviour
             Shotgun.gameObject.SetActive(true);
             Machinegun.gameObject.SetActive(false);
 
-            UIScript.ReloadTimeSlider.maxValue = ShotgunShootCooldownAmount;
+            UIScript.ReloadTimeSlider.maxValue = ShotgunArray[6];
         }
 
         if (Input.GetKeyDown("3") && MachinegunUnlocked == true)
@@ -138,7 +141,7 @@ public class Shooting : MonoBehaviour
             Shotgun.gameObject.SetActive(false);
             Machinegun.gameObject.SetActive(true);
 
-            UIScript.ReloadTimeSlider.maxValue = MachinegunShootCooldownAmount;
+            UIScript.ReloadTimeSlider.maxValue = MachinegunArray[6];
         }
 
         //Weapons
@@ -149,145 +152,95 @@ public class Shooting : MonoBehaviour
 
         if (CurrentWeapon == "Shotgun")
         {
-            Weapons(PistolArray);
+            Weapons(ShotgunArray);
         }
 
         if (CurrentWeapon == "Machinegun")
         {
-            Weapons(PistolArray);
+            Weapons(MachinegunArray);
         }
 
-
-
-        //Overig Update
-        ShotFlash();
+        UpdateShotFlashTimer();
         CurrentAmmo(PistolArray, ShotgunArray, MachinegunArray);
-        //CurrentReloadShootCooldown();
     }
 
     //----------------------------------------------------------//
 
     void Weapons(float[] Array)
     {
-        if (Input.GetButton("Fire1") && Array[0] <= 0.01f)
+        //Shoot
+        if (Input.GetButtonDown("Fire1") && Array[0] <= 0.01f && Array[1] >= 1 && CurrentWeapon != "Machinegun")
         {
             Shoot(Array);
-            //Ammo
             RemoveAmmo(Array);
-            CalcTotalAmmo(Array);
+            AddShootCooldown(Array);
         }
-        CalcAmmoAmount(Array);
-        CalcShootCooldown(Array);
+        //Shoot HoldMouseButton
+        if (Input.GetButton("Fire1") && Array[0] <= 0.01f && Array[1] >= 1 && CurrentWeapon == "Machinegun")
+        {
+            Shoot(Array);
+            RemoveAmmo(Array);
+            AddShootCooldown(Array);
+        }
+
+        //Reload
+        if (Input.GetKeyDown("r") && Array[1] <= 0f)
+        {
+            ReloadAmmo(Array);
+        }
+
+        //Update Timer
+        UpdateShootCooldownTimer(Array);
     }
 
     void Shoot(float[] Array)
     {
-        if (Array[1] >= 1 && Array[0] <= 0.01f) //&& currentReloadShootCooldown <= 0.01f)
+        RaycastHit Hit;
+        if (Physics.Raycast(MainCam.transform.position, MainCam.transform.forward, out Hit, Array[5]))
         {
-            RaycastHit Hit;
-            if (Physics.Raycast(MainCam.transform.position, MainCam.transform.forward, out Hit, Array[5]))
+            //Raycast
+            Enemy Enemy = Hit.transform.GetComponent<Enemy>();
+
+            if (Enemy != null)
             {
-                //Raycast
-                Enemy Enemy = Hit.transform.GetComponent<Enemy>();
-
-                if (Enemy != null)
-                {
-                    Enemy.TakeDamage(Array[4]);
-                }
+                Enemy.TakeDamage(Array[4]);
             }
-            ShotParticles.Play();
-            ShootFlash();
-
-            //Bullet
-            Rigidbody InstantiatedBullet;
-            InstantiatedBullet = Instantiate(Bullet, GunPos.position, GunPos.rotation);
-            InstantiatedBullet.AddForce(GunPos.forward * (Bulletspeed * Time.deltaTime));
-            Destroy(InstantiatedBullet.gameObject, 1);
         }
+        ShotParticles.Play();
+        ShootFlash();
+
+        //Bullet
+        Rigidbody InstantiatedBullet;
+        InstantiatedBullet = Instantiate(Bullet, GunPos.position, GunPos.rotation);
+        InstantiatedBullet.AddForce(GunPos.forward * (Bulletspeed * Time.deltaTime));
+        Destroy(InstantiatedBullet.gameObject, 1);
     }
 
     //Ammo Calc
     void RemoveAmmo(float[] Array)
     {
-        if (Array[1] >= 1f)
-        {
-            Array[1] -= 1f;
-        }
+        Array[1] -= 1f;
     }
 
-    void CalcTotalAmmo(float[] Array)
+    void ReloadAmmo(float[] Array)
     {
-       if (Input.GetKeyDown("r") && Array[1] <= 0f)
-        {
-            float ReloadAmount = Array[3] - Array[1];
-            Array[2] -= ReloadAmount;
-        }
-    }
-    
-    void CalcAmmoAmount(float[] Array)
-    {
-        if (Input.GetKeyDown("r") && Array[1] <= 0f)
-        {
-            float ReloadAmount = Array[3] - Array[1];
-            Array[1] += ReloadAmount;
-            //ReloadShootCooldown();
-        }
+        Array[1] = Array[3];
+        Array[2] -= Array[3];
     }
 
     //Cooldown
-    void CalcShootCooldown(float[] Array)
+    void AddShootCooldown(float[] Array)
     {
-        if (Input.GetButtonDown("Fire1") && Array[0] <= 0.01f)
-        {
-            Array[0] += Array[6];
-        }
+        Array[0] += Array[6];
+    }
 
-        if (Input.GetButton("Fire1") && Array[0] <= 0.01f && CurrentWeapon == "Machinegun")
-        {
-            Array[0] += Array[6];
-        }
-
+    void UpdateShootCooldownTimer(float[] Array)
+    {
         if (Array[0] >= 0f)
         {
             Array[0] -= Time.deltaTime;
         }
     }
-
-    //void ReloadShootCooldown()
-    //{
-    //    if (EquipedWeapon == "Pistol")
-    //    {
-    //        reloadShootCooldownPistol = reloadShootCooldownAmountPistol;
-    //    }
-
-    //    if (EquipedWeapon == "Shotgun")
-    //    {
-    //        reloadShootCooldownShotgun = reloadShootCooldownAmountShotgun;
-    //    }
-
-    //    if (EquipedWeapon == "Machinegun")
-    //    {
-    //        reloadShootCooldownMachinegun = reloadShootCooldownAmountMachinegun;
-    //    }
-    //}
-
-    //void CalcReloadShootCooldown()
-    //{
-    //    if (reloadShootCooldownPistol >= 0f)
-    //    {
-    //        reloadShootCooldownPistol -= Time.deltaTime;
-    //    }
-
-    //    if (reloadShootCooldownShotgun >= 0f)
-    //    {
-    //        reloadShootCooldownShotgun -= Time.deltaTime;
-    //    }
-
-    //    if (reloadShootCooldownMachinegun >= 0f)
-    //    {
-    //        reloadShootCooldownMachinegun -= Time.deltaTime;
-    //    }
-    //}
 
     void CurrentAmmo(float[] PistolArray, float[] ShotgunArray, float[] MachinegunArray)
     {
@@ -305,21 +258,15 @@ public class Shooting : MonoBehaviour
         }
     }
 
-    //void CurrentReloadShootCooldown()
-    //{
-
-    //}
-
     //Shoot Effects
     void ShootFlash()
     {
-        //Shot Flash
         ShotLight.SetActive(true);
         ShotflashCooldown = ShotflashCooldownAmount;
         ShotflashLightIsOn = true;
     }
 
-    void ShotFlash()
+    void UpdateShotFlashTimer()
     {
         if (ShotflashCooldown >= 0f)
         {
