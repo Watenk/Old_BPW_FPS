@@ -6,11 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
-    private CharacterControlScript Player;
+    private CharacterControlScript CharacterControlScript;
     private Shooting ShootingScript;
+    private Ability AbilityScript;
 
-    //JumpCoolDown
-    public Slider JumpCooldownSlider;
+    //Abilities
+    public Text superFlash;
+    public Slider AbilitySlider;
 
     //Health
     public Slider HealthSlider;
@@ -30,8 +32,9 @@ public class UI : MonoBehaviour
 
     void Start()
     {
-        Player = FindObjectOfType<CharacterControlScript>();
+        CharacterControlScript = FindObjectOfType<CharacterControlScript>();
         ShootingScript = FindObjectOfType<Shooting>();
+        AbilityScript = FindObjectOfType<Ability>();
     }
 
     void Update()
@@ -41,6 +44,7 @@ public class UI : MonoBehaviour
         CalcAmmo();
         Reload();
         ReloadCooldown();
+        Abilities();
     }
 
     //----------------------------------------------------//
@@ -57,7 +61,16 @@ public class UI : MonoBehaviour
 
     void JumpCoolDown()
     {
-        JumpCooldownSlider.value = Player.JumpCooldown;
+        if (CharacterControlScript.JumpCooldown <= 2.99f)
+        {
+            AbilitySlider.gameObject.SetActive(true);
+            AbilitySlider.value = CharacterControlScript.JumpCooldown;
+        }
+
+        else
+        {
+            AbilitySlider.gameObject.SetActive(false);
+        }
     }
 
     void ReloadCooldown()
@@ -67,7 +80,7 @@ public class UI : MonoBehaviour
 
     void Health()
     {
-        HealthSlider.value = Player.PlayerHealth;
+        HealthSlider.value = CharacterControlScript.PlayerHealth;
     }
 
     void CalcAmmo()
@@ -116,5 +129,10 @@ public class UI : MonoBehaviour
         {
             needToReloadText.gameObject.SetActive(false);
         }
+    }
+
+    void Abilities()
+    {
+        superFlash.text = AbilityScript.superFlashCount.ToString();
     }
 }

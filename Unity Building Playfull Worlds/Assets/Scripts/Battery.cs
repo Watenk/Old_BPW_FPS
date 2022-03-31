@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class Battery : MonoBehaviour
 {
+    private Ability AbilityScript;
+
+    private void Start()
+    {
+        AbilityScript = FindObjectOfType<Ability>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-
+            AbilityScript.AddBattery();
+            Destroy(gameObject);
         }
     }
 }
