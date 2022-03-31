@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
@@ -43,6 +44,16 @@ public class UI : MonoBehaviour
     }
 
     //----------------------------------------------------//
+
+    public void Play()
+    {
+        SceneManager.LoadScene("Level01");
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 
     void JumpCoolDown()
     {

@@ -85,7 +85,7 @@ public class Enemy : MonoBehaviour
         //Cycle naar de volgende bestemming als bestemming is bereikt
         if (MeshAgent.remainingDistance <= 0.5 && !MeshAgent.pathPending)
         {
-            PatrolPoint = Random.Range(0, 4);
+            PatrolPoint = Random.Range(0, 8);
         }
 
         //Wat is bestemming
