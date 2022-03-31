@@ -22,8 +22,7 @@ public class Shooting : MonoBehaviour
     public Transform GunPos;
 
     //Reload
-    public float currentReloadTime = 0f;
-    public float currentReloadShootCooldown;
+    public float currentReloadTime;
 
     //ShotFlash
     public GameObject ShotLight;
@@ -148,16 +147,19 @@ public class Shooting : MonoBehaviour
         if (CurrentWeapon == "Pistol")
         {
             Weapons(PistolArray);
+            currentReloadTime = PistolArray[0];
         }
 
         if (CurrentWeapon == "Shotgun")
         {
             Weapons(ShotgunArray);
+            currentReloadTime = ShotgunArray[0];
         }
 
         if (CurrentWeapon == "Machinegun")
         {
             Weapons(MachinegunArray);
+            currentReloadTime = MachinegunArray[0];
         }
 
         UpdateShotFlashTimer();

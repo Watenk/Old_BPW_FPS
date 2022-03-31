@@ -39,6 +39,7 @@ public class UI : MonoBehaviour
         Health();
         CalcAmmo();
         Reload();
+        ReloadCooldown();
     }
 
     //----------------------------------------------------//
@@ -46,6 +47,11 @@ public class UI : MonoBehaviour
     void JumpCoolDown()
     {
         JumpCooldownSlider.value = Player.JumpCooldown;
+    }
+
+    void ReloadCooldown()
+    {
+        ReloadTimeSlider.value = ShootingScript.currentReloadTime;
     }
 
     void Health()
@@ -99,23 +105,5 @@ public class UI : MonoBehaviour
         {
             needToReloadText.gameObject.SetActive(false);
         }
-
-        ////Reloading...
-        //ReloadingSlider.value = ShootingScript.currentReloadShootCooldown;
-
-        //if (ShootingScript.CurrentWeapon == "Pistol")
-        //{
-        //    ReloadingSlider.maxValue = ShootingScript.reloadShootCooldownAmountPistol;
-        //}
-
-        //if (ShootingScript.CurrentWeapon == "Shotgun")
-        //{
-        //    ReloadingSlider.maxValue = ShootingScript.reloadShootCooldownAmountShotgun;
-        //}
-
-        //if (ShootingScript.CurrentWeapon == "Machinegun")
-        //{
-        //    ReloadingSlider.maxValue = ShootingScript.reloadShootCooldownAmountMachinegun;
-        //}
     }
 }
