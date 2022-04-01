@@ -17,9 +17,8 @@ public class CharacterControlScript : MonoBehaviour
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
-    Vector3 Velocity;
-    private bool DubbleJumpReady = true;
     public float JumpCooldown = 3f;
+    public Vector3 Velocity;
 
     //HP
     public float PlayerHealth = 100f;
@@ -88,28 +87,9 @@ public class CharacterControlScript : MonoBehaviour
 
     void Jump()
     {
-        //Normal Jump
         if (Input.GetButtonDown("Jump") && IsOnGround == true)
         {
             Velocity.y = JumpHeight;
-        }
-
-        //Dubble Jump
-        if (Input.GetButtonDown("Jump") && IsOnGround == false && DubbleJumpReady)
-        {
-            Velocity.y = JumpHeight;
-            DubbleJumpReady = false;
-        }
-
-        //Dubble Jump Cooldown
-        if (DubbleJumpReady == false)
-        {
-            JumpCooldown = JumpCooldown - 1 * Time.deltaTime;
-            if (JumpCooldown <= 0f)
-            {
-                DubbleJumpReady = true;
-                JumpCooldown = 3f;
-            }
         }
     }
 

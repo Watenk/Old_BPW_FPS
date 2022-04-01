@@ -12,7 +12,7 @@ public class UI : MonoBehaviour
 
     //Abilities
     public Text superFlash;
-    public Slider AbilitySlider;
+    public Text dubbleJump;
 
     //Health
     public Slider HealthSlider;
@@ -39,7 +39,6 @@ public class UI : MonoBehaviour
 
     void Update()
     {
-        JumpCoolDown();
         Health();
         CalcAmmo();
         Reload();
@@ -59,19 +58,6 @@ public class UI : MonoBehaviour
         Application.Quit();
     }
 
-    void JumpCoolDown()
-    {
-        if (CharacterControlScript.JumpCooldown <= 2.99f)
-        {
-            AbilitySlider.gameObject.SetActive(true);
-            AbilitySlider.value = CharacterControlScript.JumpCooldown;
-        }
-
-        else
-        {
-            AbilitySlider.gameObject.SetActive(false);
-        }
-    }
 
     void ReloadCooldown()
     {
@@ -133,6 +119,7 @@ public class UI : MonoBehaviour
 
     void Abilities()
     {
-        superFlash.text = AbilityScript.superFlashCount.ToString();
+        superFlash.text = AbilityScript.superFlashAmount.ToString();
+        dubbleJump.text = AbilityScript.dubbleJumpAmount.ToString();
     }
 }
