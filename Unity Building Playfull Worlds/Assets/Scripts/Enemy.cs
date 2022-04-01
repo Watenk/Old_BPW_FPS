@@ -21,6 +21,9 @@ public class Enemy : MonoBehaviour
     public float DamageAmount = 10f;
     private float DamageTimeout;
 
+    //Death
+    public ParticleSystem DeathParticle;
+
     //-----------------------------------------//
 
     private void Awake()
@@ -128,6 +131,7 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        Instantiate(DeathParticle, new Vector3(transform.position.x, transform.position.y + 4f, transform.position.z), Quaternion.Euler(90, 0, 0));
         Destroy(gameObject);
     }
 }

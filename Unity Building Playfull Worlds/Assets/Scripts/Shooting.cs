@@ -23,6 +23,8 @@ public class Shooting : MonoBehaviour
 
     //Reload
     public float currentReloadTime;
+    float reloadCooldown;
+    float reloadCooldownAmount = 5f;
 
     //ShotFlash
     public GameObject ShotLight;
@@ -57,7 +59,7 @@ public class Shooting : MonoBehaviour
     public float MachinegunAmmo = 32f;
     public float MachinegunTotalAmmo = 240f;
     float MachinegunMagazine = 32f;
-    float MachinegunDamage = 10f;
+    float MachinegunDamage = 20f;
     float MachinegunRange = 75f;
     float MachinegunShootCooldownAmount = 0.2f;
     public float MachinegunShootCooldown;
@@ -163,6 +165,7 @@ public class Shooting : MonoBehaviour
         }
 
         UpdateShotFlashTimer();
+        UpdateReloadCooldownTimer();
         CurrentAmmo(PistolArray, ShotgunArray, MachinegunArray);
     }
 
@@ -171,14 +174,14 @@ public class Shooting : MonoBehaviour
     void Weapons(float[] Array)
     {
         //Shoot
-        if (Input.GetButtonDown("Fire1") && Array[0] <= 0.01f && Array[1] >= 1 && CurrentWeapon != "Machinegun")
+        if (Input.GetButtonDown("Fire1") && Array[0] <= 0.01f && Array[1] >= 1 && CurrentWeapon != "Machinegun" && reloadCooldown <= 0f)
         {
             Shoot(Array);
             RemoveAmmo(Array);
             AddShootCooldown(Array);
         }
         //Shoot HoldMouseButton
-        if (Input.GetButton("Fire1") && Array[0] <= 0.01f && Array[1] >= 1 && CurrentWeapon == "Machinegun")
+        if (Input.GetButton("Fire1") && Array[0] <= 0.01f && Array[1] >= 1 && CurrentWeapon == "Machinegun" && reloadCooldown <= 0f)
         {
             Shoot(Array);
             RemoveAmmo(Array);
@@ -189,6 +192,7 @@ public class Shooting : MonoBehaviour
         if (Input.GetKeyDown("r") && Array[1] <= 0f)
         {
             ReloadAmmo(Array);
+            reloadCooldown = reloadCooldownAmount;
         }
 
         //Update Timer
@@ -228,6 +232,14 @@ public class Shooting : MonoBehaviour
     {
         Array[1] = Array[3];
         Array[2] -= Array[3];
+    }
+
+    void UpdateReloadCooldownTimer()
+    {
+        if (reloadCooldown >= 0f)
+        {
+            reloadCooldown -= Time.deltaTime;
+        }
     }
 
     //Cooldown
