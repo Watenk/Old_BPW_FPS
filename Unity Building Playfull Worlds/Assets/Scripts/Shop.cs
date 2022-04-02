@@ -5,6 +5,7 @@ using UnityEngine;
 public class Shop : MonoBehaviour
 {
     private Shooting ShootingScript;
+    private CharacterControlScript CharacterControlScript;
 
     public float Coins = 0f;
     public bool ShopActive = false;
@@ -12,6 +13,7 @@ public class Shop : MonoBehaviour
     private void Start()
     {
         ShootingScript = FindObjectOfType<Shooting>();
+        CharacterControlScript = FindObjectOfType<CharacterControlScript>();
     }
 
     private void Update()
@@ -33,6 +35,26 @@ public class Shop : MonoBehaviour
                 {
                     Coins -= 300f;
                     ShootingScript.MachinegunUnlocked = true;
+                }
+            }
+
+           if (Input.GetKeyDown("h"))
+            {
+                if (Coins >= 50f)
+                {
+                    Coins -= 50f;
+                    CharacterControlScript.PlayerHealth = 100f;
+                }
+            }
+
+           if (Input.GetKeyDown("g"))
+            {
+                if (Coins >= 70f)
+                {
+                    Coins -= 70f;
+                    ShootingScript.PistolTotalAmmo = 36f;
+                    ShootingScript.ShotgunTotalAmmo = 12f;
+                    ShootingScript.MachinegunAmmo = 256f;
                 }
             }
         }

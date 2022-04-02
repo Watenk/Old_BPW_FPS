@@ -35,6 +35,8 @@ public class UI : MonoBehaviour
     //Kills
     public Text killCounter;
 
+    //Boss
+    public Text BossWall;
 
     //--------------------------------------------//
 
@@ -62,7 +64,7 @@ public class UI : MonoBehaviour
 
     public void Play()
     {
-        SceneManager.LoadScene("Level01");
+        SceneManager.LoadScene("Level01&02");
     }
 
     public void Quit()

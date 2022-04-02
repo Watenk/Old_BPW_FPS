@@ -35,7 +35,7 @@ public class Shooting : MonoBehaviour
 
     //Pistol
     public float PistolAmmo = 6f;
-    public float PistolTotalAmmo = 120f;
+    public float PistolTotalAmmo = 36f;
     float PistolMagazine = 6f;
     float PistolDamage = 20f;
     float PistolRange = 100f;
@@ -45,7 +45,7 @@ public class Shooting : MonoBehaviour
 
     //Shotgun
     public float ShotgunAmmo = 2f;
-    public float ShotgunTotalAmmo = 24f;
+    public float ShotgunTotalAmmo = 12f;
     float ShotgunMagazine = 2f;
     float ShotgunDamage = 100f;
     float ShotgunRange = 20f;
@@ -55,7 +55,7 @@ public class Shooting : MonoBehaviour
 
     //Machinegun
     public float MachinegunAmmo = 32f;
-    public float MachinegunTotalAmmo = 240f;
+    public float MachinegunTotalAmmo = 256f;
     float MachinegunMagazine = 32f;
     float MachinegunDamage = 20f;
     float MachinegunRange = 75f;

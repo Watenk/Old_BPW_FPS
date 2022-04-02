@@ -8,11 +8,11 @@ public class Enemy : MonoBehaviour
     private Win WinScript;
 
     //FSM
-    public enum State { Idle, Patrol, Attack }
+    public enum State {Patrol, Attack }
     public State state;
 
     //Agent
-    public float ViewDistance = 30f;
+    public float ViewDistance = 50f;
     public Transform[] PatrolPoints;
     private int PatrolPoint;
     private NavMeshAgent MeshAgent;
@@ -38,8 +38,15 @@ public class Enemy : MonoBehaviour
     {
         WinScript = FindObjectOfType<Win>();
         Player = FindObjectOfType<CharacterControlScript>();
-        ShopScript = FindObjectOfType<Shop>();
-        MeshAgent.speed = Random.Range(3, 6);
+        ShopScript = FindObjectOfType<Shop>(); 
+        MeshAgent.speed = Random.Range(3, 12);
+        float FifthyFifthy = Random.Range(1, 10);
+        if (MeshAgent.speed >=8 && FifthyFifthy <= 8f)
+        {
+            MeshAgent.speed = Random.Range(3, 5);
+        }
+        MeshAgent.acceleration = Random.Range(6, 10);
+        MeshAgent.angularSpeed = Random.Range(110, 130);
     }
 
     private void Update()
@@ -55,10 +62,6 @@ public class Enemy : MonoBehaviour
     {
         switch (state)
         {
-            case State.Idle: 
-                Idle(); 
-                break;
-
             case State.Patrol: 
                 Patrol(); 
                 break;
@@ -82,12 +85,6 @@ public class Enemy : MonoBehaviour
         }
 
     }
-
-    void Idle()
-    {
-        
-    }
-
     void Patrol()
     {
         //Cycle naar de volgende bestemming als bestemming is bereikt
