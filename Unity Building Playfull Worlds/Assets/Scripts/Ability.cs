@@ -51,9 +51,8 @@ public class Ability : MonoBehaviour
         }
 
         //Dubblejump
-        if (Input.GetKeyDown("e") && dubbleJumpAmount >= 1f && dubbleJumpCooldown <= 0f)
+        if (Input.GetKeyDown("e") && dubbleJumpAmount >= 1f && dubbleJumpCooldown <= 0f && CharacterControlScript.IsOnGround == false)
         {
-            //jump
             CharacterControlScript.Velocity.y = CharacterControlScript.JumpHeight;
             dubbleJumpCooldown = dubbleJumpCooldownAmount;
             dubbleJumpAmount -= 1f;

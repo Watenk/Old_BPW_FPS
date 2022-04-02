@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
+    private Win WinScript;
     private CharacterControlScript CharacterControlScript;
     private Shooting ShootingScript;
     private Ability AbilityScript;
+    private Shop ShopScript;
 
     //Abilities
     public Text superFlash;
@@ -25,16 +27,24 @@ public class UI : MonoBehaviour
     public Slider ReloadingSlider;
     public Slider ReloadTimeSlider;
     public Text needToReloadText;
-    bool needToReload = false;
+
+    //Shop
+    public Text CoinsText;
+    public Text ShopText;
+
+    //Kills
+    public Text killCounter;
 
 
     //--------------------------------------------//
 
     void Start()
     {
+        WinScript = FindObjectOfType<Win>();
         CharacterControlScript = FindObjectOfType<CharacterControlScript>();
         ShootingScript = FindObjectOfType<Shooting>();
         AbilityScript = FindObjectOfType<Ability>();
+        ShopScript = FindObjectOfType<Shop>();
     }
 
     void Update()
@@ -44,6 +54,8 @@ public class UI : MonoBehaviour
         Reload();
         ReloadCooldown();
         Abilities();
+        Shop();
+        KillCounter();
     }
 
     //----------------------------------------------------//
@@ -97,23 +109,25 @@ public class UI : MonoBehaviour
         //Need te reload?
         if (ShootingScript.currentAmmo <= 0f)
         {
-            needToReload = true;
-        }
-
-        if (ShootingScript.currentAmmo >= 0.1f)
-        {
-            needToReload = false;
-        }
-
-        //Reload Text
-        if (needToReload == true)
-        {
             needToReloadText.gameObject.SetActive(true);
         }
 
-        if (needToReload == false)
+        if (ShootingScript.currentAmmo >= 0.1f && ShootingScript.reloadCooldown <= 0f)
         {
             needToReloadText.gameObject.SetActive(false);
+        }
+
+        //Reload Text
+        if (ShootingScript.reloadCooldown >= 0.01f)
+        {
+            ReloadingSlider.gameObject.SetActive(true);
+            needToReloadText.text = "Reloading...";
+        }
+
+        if (ShootingScript.reloadCooldown <= 0f)
+        {
+            ReloadingSlider.gameObject.SetActive(false);
+            needToReloadText.text = "Reload!";
         }
     }
 
@@ -121,5 +135,16 @@ public class UI : MonoBehaviour
     {
         superFlash.text = AbilityScript.superFlashAmount.ToString();
         dubbleJump.text = AbilityScript.dubbleJumpAmount.ToString();
+        ReloadingSlider.value = ShootingScript.reloadCooldown;
+    }
+
+    void Shop()
+    {
+        CoinsText.text = ShopScript.Coins.ToString();
+    }
+
+    void KillCounter()
+    {
+        killCounter.text = WinScript.kills.ToString() + " / 100";
     }
 }

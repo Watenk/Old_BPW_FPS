@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    private Win WinScript;
+
     //FSM
     public enum State { Idle, Patrol, Attack }
     public State state;
@@ -15,6 +17,7 @@ public class Enemy : MonoBehaviour
     private int PatrolPoint;
     private NavMeshAgent MeshAgent;
     private CharacterControlScript Player;
+    private Shop ShopScript;
 
     //Damage And HP
     public float Health = 30f;
@@ -33,7 +36,9 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
+        WinScript = FindObjectOfType<Win>();
         Player = FindObjectOfType<CharacterControlScript>();
+        ShopScript = FindObjectOfType<Shop>();
         MeshAgent.speed = Random.Range(3, 6);
     }
 
@@ -131,6 +136,8 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        ShopScript.Coins += 10f;
+        WinScript.kills += 1f;
         Instantiate(DeathParticle, new Vector3(transform.position.x, transform.position.y + 4f, transform.position.z), Quaternion.Euler(90, 0, 0));
         Destroy(gameObject);
     }

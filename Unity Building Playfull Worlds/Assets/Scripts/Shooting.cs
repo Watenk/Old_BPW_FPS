@@ -13,8 +13,8 @@ public class Shooting : MonoBehaviour
     //Weapons
     public float currentAmmo;
     public string CurrentWeapon = "Pistol";
-    bool ShotgunUnlocked = true;
-    bool MachinegunUnlocked = true;
+    public bool ShotgunUnlocked = false;
+    public bool MachinegunUnlocked = false;
 
     //bullet
     public Rigidbody Bullet;
@@ -23,8 +23,8 @@ public class Shooting : MonoBehaviour
 
     //Reload
     public float currentReloadTime;
-    float reloadCooldown;
-    float reloadCooldownAmount = 5f;
+    public float reloadCooldown;
+    float reloadCooldownAmount = 3f;
 
     //ShotFlash
     public GameObject ShotLight;
@@ -41,7 +41,6 @@ public class Shooting : MonoBehaviour
     float PistolRange = 100f;
     float PistolShootCooldownAmount = 1f;
     public float PistolShootCooldown;
-    float reloadShootCooldownPistol;
     public float reloadShootCooldownAmountPistol = 2f;
 
     //Shotgun
@@ -52,7 +51,6 @@ public class Shooting : MonoBehaviour
     float ShotgunRange = 20f;
     float ShotgunShootCooldownAmount = 1f;
     public float ShotgunShootCooldown;
-    float reloadShootCooldownShotgun;
     public float reloadShootCooldownAmountShotgun = 5f;
 
     //Machinegun
@@ -63,7 +61,6 @@ public class Shooting : MonoBehaviour
     float MachinegunRange = 75f;
     float MachinegunShootCooldownAmount = 0.2f;
     public float MachinegunShootCooldown;
-    float reloadShootCooldownMachinegun;
     public float reloadShootCooldownAmountMachinegun = 5f;
 
     //Arrays
@@ -115,7 +112,7 @@ public class Shooting : MonoBehaviour
     void Update()
     {
         //Switch Weapon
-        if (Input.GetKeyDown("1"))
+        if (Input.GetKeyDown("1") && reloadCooldown <= 0f)
         {
             CurrentWeapon = "Pistol";
             Shotgun.gameObject.SetActive(false);
@@ -125,7 +122,7 @@ public class Shooting : MonoBehaviour
             UIScript.ReloadTimeSlider.maxValue = PistolArray[6];
         }
 
-        if (Input.GetKeyDown("2") && ShotgunUnlocked == true)
+        if (Input.GetKeyDown("2") && ShotgunUnlocked == true && reloadCooldown <= 0f)
         {
             CurrentWeapon = "Shotgun";
             Pistol.gameObject.SetActive(false);
@@ -135,7 +132,7 @@ public class Shooting : MonoBehaviour
             UIScript.ReloadTimeSlider.maxValue = ShotgunArray[6];
         }
 
-        if (Input.GetKeyDown("3") && MachinegunUnlocked == true)
+        if (Input.GetKeyDown("3") && MachinegunUnlocked == true && reloadCooldown <= 0f)
         {
             CurrentWeapon = "Machinegun";
             Pistol.gameObject.SetActive(false);
