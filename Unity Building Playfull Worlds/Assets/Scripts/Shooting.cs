@@ -45,7 +45,7 @@ public class Shooting : MonoBehaviour
 
     //Shotgun
     public float ShotgunAmmo = 2f;
-    public float ShotgunTotalAmmo = 12f;
+    public float ShotgunTotalAmmo = 24f;
     float ShotgunMagazine = 2f;
     float ShotgunDamage = 100f;
     float ShotgunRange = 20f;
@@ -201,12 +201,28 @@ public class Shooting : MonoBehaviour
         RaycastHit Hit;
         if (Physics.Raycast(MainCam.transform.position, MainCam.transform.forward, out Hit, Array[5]))
         {
-            //Raycast
+            //Enemy Damage
             Enemy Enemy = Hit.transform.GetComponent<Enemy>();
 
             if (Enemy != null)
             {
                 Enemy.TakeDamage(Array[4]);
+            }
+
+            //Boss Damage
+            EnemyEndboss Boss = Hit.transform.GetComponent<EnemyEndboss>();
+
+            if (Boss != null)
+            {
+                Boss.TakeDamage(Array[4]);
+            }
+
+            //Boss Zombie Damage
+            EnemyZombieBoss ZombieBoss = Hit.transform.GetComponent<EnemyZombieBoss>();
+
+            if (ZombieBoss != null)
+            {
+                ZombieBoss.TakeDamage(Array[4]);
             }
         }
         ShotParticles.Play();
@@ -227,8 +243,11 @@ public class Shooting : MonoBehaviour
 
     void ReloadAmmo(float[] Array)
     {
-        Array[1] = Array[3];
-        Array[2] -= Array[3];
+        if (Array[2] >= 1)
+        {
+            Array[1] = Array[3];
+            Array[2] -= Array[3];
+        }
     }
 
     void UpdateReloadCooldownTimer()
@@ -289,5 +308,12 @@ public class Shooting : MonoBehaviour
             ShotLight.SetActive(false);
             ShotflashLightIsOn = false;
         }
+    }
+
+    public void ReloadTotalAmmo()
+    {
+        PistolArray[2] = 36f;
+        ShotgunArray[2] = 24f;
+        MachinegunArray[2] = 256f;
     }
 }

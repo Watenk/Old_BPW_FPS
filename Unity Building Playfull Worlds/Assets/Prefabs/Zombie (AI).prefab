@@ -60,6 +60,7 @@ MonoBehaviour:
   - {fileID: 0}
   Health: 30
   DamageAmount: 10
+  DeathParticle: {fileID: 0}
 --- !u!195 &7633097313718136502
 NavMeshAgent:
   m_ObjectHideFlags: 0

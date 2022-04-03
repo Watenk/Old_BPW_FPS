@@ -5,15 +5,17 @@ using UnityEngine;
 public class BossTrigger : MonoBehaviour
 {
     private UI UIScript;
+    private lvl02 lvl02Script;
 
     private void Start()
     {
-        UIScript = FindObjectOfType<UI>();    
+        UIScript = FindObjectOfType<UI>();
+        lvl02Script = FindObjectOfType<lvl02>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && lvl02Script.kills <= 99f)
         {
             UIScript.BossWall.gameObject.SetActive(true);
         }

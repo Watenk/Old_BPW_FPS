@@ -5,14 +5,16 @@ using UnityEngine.AI;
 
 public class EnemyEndboss : MonoBehaviour
 {
+    private UI UIScript;
+
+    public GameObject EnemyAI;
+
     //FSM
     public enum State { Patrol, Attack }
     public State state;
 
     //Agent
     public float ViewDistance = 100f;
-    public Transform[] PatrolPoints;
-    private int PatrolPoint;
     private NavMeshAgent MeshAgent;
     private CharacterControlScript Player;
     private Shop ShopScript;
@@ -25,6 +27,12 @@ public class EnemyEndboss : MonoBehaviour
     //Death
     public ParticleSystem DeathParticle;
 
+    //Summon
+    bool Wave1 = false;
+    float Wave1Amount = 10f;
+    bool Wave2 = false;
+    float Wave2Amount = 20f;
+
     //-----------------------------------------//
 
     private void Awake()
@@ -34,6 +42,7 @@ public class EnemyEndboss : MonoBehaviour
 
     private void Start()
     {
+        UIScript = FindObjectOfType<UI>();
         Player = FindObjectOfType<CharacterControlScript>();
         ShopScript = FindObjectOfType<Shop>();
         MeshAgent.speed = 3f;
@@ -76,6 +85,24 @@ public class EnemyEndboss : MonoBehaviour
             MeshAgent.stoppingDistance = 0.05f;
         }
 
+        if (Health <= 1500 && Wave1 == false)
+        {
+            for(int i =0; i < Wave1Amount; i++)
+            {
+                Instantiate(EnemyAI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+            }
+            Wave1 = true;
+        }
+
+        if (Health <= 500 && Wave2 == false)
+        {
+            for (int i = 0; i < Wave2Amount; i++)
+            {
+                Instantiate(EnemyAI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+            }
+            Wave2 = true;
+        }
+
     }
     void Patrol()
     {
@@ -113,17 +140,13 @@ public class EnemyEndboss : MonoBehaviour
         {
             DamageTimeout -= Time.deltaTime;
         }
-
     }
 
     void Die()
     {
-        ShopScript.Coins += 1000f;
-        Instantiate(DeathParticle, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(90, 0, 0));
-        Instantiate(DeathParticle, new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), Quaternion.Euler(90, 0, 0));
-        Instantiate(DeathParticle, new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z), Quaternion.Euler(90, 0, 0));
-        Instantiate(DeathParticle, new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z), Quaternion.Euler(90, 0, 0));
-        Instantiate(DeathParticle, new Vector3(transform.position.x, transform.position.y + 4f, transform.position.z), Quaternion.Euler(90, 0, 0));
+        ShopScript.Coins += 10000f;
+        UIScript.Win.gameObject.SetActive(true);
+        Instantiate(DeathParticle, new Vector3(transform.position.x, transform.position.y + 10f, transform.position.z), Quaternion.Euler(90, 0, 0));
         Destroy(gameObject);
     }
 }

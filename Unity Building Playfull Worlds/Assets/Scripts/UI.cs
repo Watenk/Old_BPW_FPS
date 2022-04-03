@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
-    private Win WinScript;
+    private EnemyEndboss EnemyEndBossScript;
+    private lvl02 lvl02Script;
     private CharacterControlScript CharacterControlScript;
     private Shooting ShootingScript;
     private Ability AbilityScript;
@@ -36,13 +37,23 @@ public class UI : MonoBehaviour
     public Text killCounter;
 
     //Boss
+    public Text aAreaHasOpened;
     public Text BossWall;
+    public Slider BossHP;
+
+    //Lose
+    public Text YouLost;
+    public Text pressEtoStartAgain;
+
+    //Win
+    public Text Win;
 
     //--------------------------------------------//
 
     void Start()
     {
-        WinScript = FindObjectOfType<Win>();
+        EnemyEndBossScript = FindObjectOfType<EnemyEndboss>();
+        lvl02Script = FindObjectOfType<lvl02>();
         CharacterControlScript = FindObjectOfType<CharacterControlScript>();
         ShootingScript = FindObjectOfType<Shooting>();
         AbilityScript = FindObjectOfType<Ability>();
@@ -58,6 +69,7 @@ public class UI : MonoBehaviour
         Abilities();
         Shop();
         KillCounter();
+        Boss();
     }
 
     //----------------------------------------------------//
@@ -147,6 +159,11 @@ public class UI : MonoBehaviour
 
     void KillCounter()
     {
-        killCounter.text = WinScript.kills.ToString() + " / 100";
+        killCounter.text = lvl02Script.kills.ToString() + " / 100";
+    }
+
+    void Boss()
+    {
+        BossHP.value = EnemyEndBossScript.Health;
     }
 }

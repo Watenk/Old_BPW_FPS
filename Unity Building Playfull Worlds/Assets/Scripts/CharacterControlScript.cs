@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CharacterControlScript : MonoBehaviour
 {
+    private UI UIScript;
+
     public Transform Player;
     public Transform Camera;
     public CharacterController controller;
@@ -28,15 +31,20 @@ public class CharacterControlScript : MonoBehaviour
     {
         //Lock Cursor
         Cursor.lockState = CursorLockMode.Locked;
+
+        UIScript = FindObjectOfType<UI>();
     }
 
     void Update()
     {
-        MouseMovement();
-        KeyboardMovement();
+        if (PlayerHealth >= 0.01)
+        {
+            MouseMovement();
+            KeyboardMovement();
+            Jump();
+        }
         GroundCheck();
         Gravity();
-        Jump();
         Lose();
     }
 
@@ -97,8 +105,14 @@ public class CharacterControlScript : MonoBehaviour
     {
         if (PlayerHealth <= 0f)
         {
-            Time.timeScale = 0.3f;
-            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            UIScript.YouLost.gameObject.SetActive(true);
+            UIScript.pressEtoStartAgain.gameObject.SetActive(true);
+
+            if (Input.GetKeyDown("e"))
+            {
+                Cursor.lockState = CursorLockMode.None;
+                SceneManager.LoadScene("MainMenu");
+            }
         }
     }
 }

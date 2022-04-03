@@ -31,9 +31,9 @@ public class Shop : MonoBehaviour
 
            if (Input.GetKeyDown("3") && ShootingScript.MachinegunUnlocked == false)
             {
-                if (Coins >= 300f)
+                if (Coins >= 500f)
                 {
-                    Coins -= 300f;
+                    Coins -= 500f;
                     ShootingScript.MachinegunUnlocked = true;
                 }
             }
@@ -52,9 +52,7 @@ public class Shop : MonoBehaviour
                 if (Coins >= 70f)
                 {
                     Coins -= 70f;
-                    ShootingScript.PistolTotalAmmo = 36f;
-                    ShootingScript.ShotgunTotalAmmo = 12f;
-                    ShootingScript.MachinegunAmmo = 256f;
+                    ShootingScript.ReloadTotalAmmo();
                 }
             }
         }

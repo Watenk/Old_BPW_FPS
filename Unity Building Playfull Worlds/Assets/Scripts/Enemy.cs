@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    private Win WinScript;
+    private lvl02 WinScript;
 
     //FSM
     public enum State {Patrol, Attack }
@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        WinScript = FindObjectOfType<Win>();
+        WinScript = FindObjectOfType<lvl02>();
         Player = FindObjectOfType<CharacterControlScript>();
         ShopScript = FindObjectOfType<Shop>(); 
         MeshAgent.speed = Random.Range(3, 12);
@@ -90,7 +90,7 @@ public class Enemy : MonoBehaviour
         //Cycle naar de volgende bestemming als bestemming is bereikt
         if (MeshAgent.remainingDistance <= 0.5 && !MeshAgent.pathPending)
         {
-            PatrolPoint = Random.Range(0, 8);
+            PatrolPoint = Random.Range(0, 20);
         }
 
         //Wat is bestemming
