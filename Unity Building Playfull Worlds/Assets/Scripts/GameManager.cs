@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,20 +12,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (kills == 100)
+        if (kills == killsYouNeedToGet)
         {
             bossFight = true;
+            bossWall.gameObject.SetActive(false);
         }
     }
-
-
-    //public void Play()
-    //{
-    //    SceneManager.LoadScene("Level01&02");
-    //}
-
-    //public void Quit()
-    //{
-    //    Application.Quit();
-    //}
 }

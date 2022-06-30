@@ -11,8 +11,9 @@ public abstract class Weapons : MonoBehaviour
 
     //Ammo
     public int currentAmmo;
-    public int maxAmmo;
     public int magazineSize;
+    public int maxAmmo;
+    public int currentMaxAmmo;
 
     //bullet
     public GameObject bulletPrefab;
@@ -21,9 +22,9 @@ public abstract class Weapons : MonoBehaviour
 
     //Cooldown
     public float shootCooldown;
-    public float currentShootCooldown; //private
+    public float currentShootCooldown; 
     public float reloadCooldown;
-    public float currentReloadCooldown; //private
+    public float currentReloadCooldown; 
 
     //References
     private CharacterController player;
@@ -42,7 +43,6 @@ public abstract class Weapons : MonoBehaviour
         //Inputs
         if (Input.GetButtonDown("Fire1") && currentAmmo >= 1 && currentShootCooldown <= 0 && currentReloadCooldown <= 0)
         {
-            print("poef");
             Shoot();
         }
 
@@ -51,8 +51,8 @@ public abstract class Weapons : MonoBehaviour
             Reload();
         }
 
-        currentShootCooldown = cooldowns(currentShootCooldown);
-        currentReloadCooldown = cooldowns(currentReloadCooldown);
+        currentShootCooldown = Cooldowns(currentShootCooldown);
+        currentReloadCooldown = Cooldowns(currentReloadCooldown);
     }
 
     public virtual void Shoot()
@@ -82,12 +82,12 @@ public abstract class Weapons : MonoBehaviour
         //Calc Bullets
         int bulletsToReload = magazineSize - currentAmmo;
         currentAmmo += bulletsToReload;
-        maxAmmo -= bulletsToReload;
+        currentMaxAmmo -= bulletsToReload;
 
         currentReloadCooldown = reloadCooldown;
     }
 
-    public float cooldowns(float currentCooldown)
+    public float Cooldowns(float currentCooldown)
     {
         if (currentCooldown >= 0)
         {

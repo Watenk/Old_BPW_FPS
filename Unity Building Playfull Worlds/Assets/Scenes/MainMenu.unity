@@ -123,6 +123,49 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &20820499
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 20820500}
+  - component: {fileID: 20820501}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &20820500
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20820499}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 36.499268, y: 5.541913, z: -396.3215}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &20820501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20820499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0560007995ee7704580fa6b02da1cb2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &40122753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -432,7 +475,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: -5.877, y: 0, z: 0}
 --- !u!1 &159596518
 GameObject:
@@ -1483,7 +1526,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1001 &725398830
 PrefabInstance:
@@ -1767,7 +1810,7 @@ RectTransform:
   - {fileID: 1266415579}
   - {fileID: 2065822914}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1788,15 +1831,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   superFlash: {fileID: 0}
   dubbleJump: {fileID: 0}
-  HealthSlider: {fileID: 0}
-  CurrentAmmo: {fileID: 0}
-  TotalAmmo: {fileID: 0}
-  ReloadingSlider: {fileID: 0}
-  ReloadTimeSlider: {fileID: 0}
-  needToReloadText: {fileID: 0}
-  CoinsText: {fileID: 0}
-  ShopText: {fileID: 0}
+  healthSlider: {fileID: 0}
   killCounter: {fileID: 0}
+  currentAmmo: {fileID: 0}
+  totalAmmo: {fileID: 0}
+  shootCooldownSlider: {fileID: 0}
+  reloadingSlider: {fileID: 0}
+  needToReloadText: {fileID: 0}
+  coinsText: {fileID: 0}
+  shopText: {fileID: 0}
+  areaText: {fileID: 0}
+  aAreaHasOpened: {fileID: 0}
+  bossHP: {fileID: 0}
+  youLost: {fileID: 0}
+  pressEtoStartAgain: {fileID: 0}
+  win: {fileID: 0}
 --- !u!1001 &800191718
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2057,7 +2106,7 @@ GameObject:
   - component: {fileID: 966612436}
   - component: {fileID: 966612435}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: CanvasEventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2109,7 +2158,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &975515960
 PrefabInstance:
@@ -2777,7 +2826,7 @@ Transform:
   - {fileID: 339360428}
   - {fileID: 1225997077}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1106821092
 PrefabInstance:
@@ -3339,7 +3388,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1266415578
 GameObject:
@@ -3424,8 +3473,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 786385426}
-        m_TargetAssemblyTypeName: UI, Assembly-CSharp
+      - m_Target: {fileID: 20820501}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
         m_MethodName: Play
         m_Mode: 1
         m_Arguments:
@@ -4051,7 +4100,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 1.074, y: 0, z: 0}
 --- !u!1001 &1567912964
 PrefabInstance:
@@ -5522,8 +5571,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 786385426}
-        m_TargetAssemblyTypeName: UI, Assembly-CSharp
+      - m_Target: {fileID: 20820501}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
         m_MethodName: Quit
         m_Mode: 1
         m_Arguments:

@@ -7,15 +7,26 @@ public class Shooting : MonoBehaviour
     public enum State { pistol, shotgun, machinegun }
     State state;
 
+    public bool shotgunUnlocked = false;
+    public bool machinegunUnlocked = false;
+
     public string currentWeapon;
+    public float currentShootCooldown;
     public float currentReloadCooldown;
     public int currentAmmo;
     public int currentMaxAmmo;
+    public int currentMagazineSize;
 
     //References
     public Pistol pistol;
     public Shotgun shotgun;
     public Machinegun machinegun;
+    public UI ui;
+
+    private void Start()
+    {
+        ui = FindObjectOfType<UI>();
+    }
 
     private void Update()
     {
@@ -39,7 +50,7 @@ public class Shooting : MonoBehaviour
             state = State.pistol;
         }
 
-        if (Input.GetKeyDown("2"))
+        if (Input.GetKeyDown("2") && shotgunUnlocked == true)
         {
             state = State.shotgun;
         }
@@ -58,9 +69,13 @@ public class Shooting : MonoBehaviour
         shotgun.gameObject.SetActive(false);
         machinegun.gameObject.SetActive(false);
 
+        currentShootCooldown = pistol.currentShootCooldown;
         currentReloadCooldown = pistol.currentReloadCooldown;
         currentAmmo = pistol.currentAmmo;
         currentMaxAmmo = pistol.maxAmmo;
+        currentMagazineSize = pistol.magazineSize;
+
+        ui.reloadingSlider.maxValue = pistol.reloadCooldown;
     }
 
     void Shotgun()
@@ -71,9 +86,13 @@ public class Shooting : MonoBehaviour
         shotgun.gameObject.SetActive(true);
         machinegun.gameObject.SetActive(false);
 
+        currentShootCooldown = shotgun.currentShootCooldown;
         currentReloadCooldown = shotgun.currentReloadCooldown;
         currentAmmo = shotgun.currentAmmo;
         currentMaxAmmo = shotgun.maxAmmo;
+        currentMagazineSize = shotgun.magazineSize;
+
+        ui.reloadingSlider.maxValue = shotgun.reloadCooldown;
     }
 
     void Machinegun()
@@ -84,8 +103,22 @@ public class Shooting : MonoBehaviour
         shotgun.gameObject.SetActive(false);
         machinegun.gameObject.SetActive(true);
 
+        currentShootCooldown = machinegun.currentShootCooldown;
         currentReloadCooldown = machinegun.currentReloadCooldown;
         currentAmmo = machinegun.currentAmmo;
         currentMaxAmmo = machinegun.maxAmmo;
+        currentMagazineSize = machinegun.magazineSize;
+
+        ui.reloadingSlider.maxValue = machinegun.reloadCooldown;
+    }
+
+    public void ReloadAllAmmo()
+    {
+        pistol.currentMaxAmmo = pistol.maxAmmo;
+        pistol.currentAmmo = pistol.magazineSize;
+        shotgun.currentMaxAmmo = shotgun.maxAmmo;
+        shotgun.currentAmmo = shotgun.magazineSize;
+        machinegun.currentMaxAmmo = machinegun.maxAmmo;
+        machinegun.currentAmmo = machinegun.magazineSize;
     }
 }

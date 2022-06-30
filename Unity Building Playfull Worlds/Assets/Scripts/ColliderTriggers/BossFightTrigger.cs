@@ -5,6 +5,7 @@ using UnityEngine;
 public class BossFightTrigger : MonoBehaviour
 {
     private UI UIScript;
+    public bool startBossFight = false;
 
     private void Start()
     {
@@ -15,6 +16,7 @@ public class BossFightTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            startBossFight = true;
             UIScript.bossHP.gameObject.SetActive(true);
         }
     }

@@ -4,57 +4,57 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
-    private Shooting ShootingScript;
-    private CharacterControlScript CharacterControlScript;
+    private Shooting shooting;
+    private CharacterControlScript player;
 
-    public float Coins = 0f;
+    public int Coins = 0;
     public bool ShopActive = false;
 
     private void Start()
     {
-        ShootingScript = FindObjectOfType<Shooting>();
-        CharacterControlScript = FindObjectOfType<CharacterControlScript>();
+        shooting = FindObjectOfType<Shooting>();
+        player = FindObjectOfType<CharacterControlScript>();
     }
 
     private void Update()
     {
-    //    if (ShopActive == true)
-    //    {
-    //       if (Input.GetKeyDown("2") && ShootingScript.ShotgunUnlocked == false)
-    //        {
-    //            if (Coins >= 100f)
-    //            {
-    //                Coins -= 100f;
-    //                ShootingScript.ShotgunUnlocked = true;
-    //            }
-    //        }
+        if (ShopActive == true)
+        {
+            if (Input.GetKeyDown("2") && shooting.shotgunUnlocked == false)
+            {
+                if (Coins >= 100)
+                {
+                    Coins -= 100;
+                    shooting.shotgunUnlocked = true;
+                }
+            }
 
-    //       if (Input.GetKeyDown("3") && ShootingScript.MachinegunUnlocked == false)
-    //        {
-    //            if (Coins >= 500f)
-    //            {
-    //                Coins -= 500f;
-    //                ShootingScript.MachinegunUnlocked = true;
-    //            }
-    //        }
+            if (Input.GetKeyDown("3") && shooting.machinegunUnlocked == false)
+            {
+                if (Coins >= 500)
+                {
+                    Coins -= 500;
+                    shooting.machinegunUnlocked = true;
+                }
+            }
 
-    //       if (Input.GetKeyDown("h"))
-    //        {
-    //            if (Coins >= 50f)
-    //            {
-    //                Coins -= 50f;
-    //                CharacterControlScript.PlayerHealth = 100f;
-    //            }
-    //        }
+            if (Input.GetKeyDown("h"))
+            {
+                if (Coins >= 50)
+                {
+                    Coins -= 50;
+                    player.playerHealth = 100;
+                }
+            }
 
-    //       if (Input.GetKeyDown("g"))
-    //        {
-    //            if (Coins >= 70f)
-    //            {
-    //                Coins -= 70f;
-    //                ShootingScript.ReloadTotalAmmo();
-    //            }
-    //        }
-    //    }
+            if (Input.GetKeyDown("g"))
+            {
+                if (Coins >= 70)
+                {
+                    Coins -= 70;
+                    shooting.ReloadAllAmmo();
+                }
+            }
+        }
     }
 }

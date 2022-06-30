@@ -27,12 +27,14 @@ public abstract class Enemy : MonoBehaviour
     private NavMeshAgent agent;
     private CharacterControlScript player;
     private Shop shop;
+    private GameManager gameManager;
 
     public virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         player = FindObjectOfType<CharacterControlScript>();
         shop = FindObjectOfType<Shop>();
+        gameManager = FindObjectOfType<GameManager>();
 
         //Find Patrol Points
         patrolPointsGameObject = FindObjectOfType<FindPatrolPoints>().gameObject;
@@ -78,6 +80,8 @@ public abstract class Enemy : MonoBehaviour
             agent.stoppingDistance = 0.05f;
         }
 
+        DoDamage();
+
         //Cooldowns
         currentAttackCooldown = Cooldowns(currentAttackCooldown);
     }
@@ -108,8 +112,9 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void DoDamage()
     {
-        if (Vector3.Distance(transform.position, player.transform.position) < 4f && state == State.Attack && attackCooldown <= 0f)
+        if (Vector3.Distance(transform.position, player.transform.position) < 4f && state == State.Attack && currentAttackCooldown <= 0f)
         {
+            print("damage");
             player.playerHealth -= damage;
             currentAttackCooldown = attackCooldown;
         }
@@ -118,7 +123,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void Die()
     {
         shop.Coins += coins;
-        //WinScript.kills += 1f; 
+        gameManager.kills += 1; 
         Instantiate(deathParticle, new Vector3(transform.position.x, transform.position.y + 4f, transform.position.z), Quaternion.Euler(90, 0, 0));
         Destroy(gameObject);
     }

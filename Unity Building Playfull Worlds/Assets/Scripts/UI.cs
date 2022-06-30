@@ -9,35 +9,29 @@ public class UI : MonoBehaviour
     public Text superFlash;
     public Text dubbleJump;
 
-    //Health
+    //Player
     public Slider healthSlider;
+    public Text killCounter;
 
-    //Ammo
+    //Weapons
     public Text currentAmmo;
     public Text totalAmmo;
-
-    //reload
+    public Slider shootCooldownSlider;
     public Slider reloadingSlider;
-    public Slider reloadTimeSlider;
     public Text needToReloadText;
 
     //Shop
     public Text coinsText;
     public Text shopText;
 
-    //Kills
-    public Text killCounter;
-
     //Boss
+    public Text areaText;
     public Text aAreaHasOpened;
-    public Text areaWall;
     public Slider bossHP;
 
-    //Lose
+    //Win/Lose
     public Text youLost;
     public Text pressEtoStartAgain;
-
-    //Win
     public Text win;
 
     //References
@@ -47,6 +41,8 @@ public class UI : MonoBehaviour
     private GameManager gameManager;
     private Shop shop;
     private AreaTrigger area;
+    private Boss boss;
+    private BossFightTrigger trigger;
 
     //--------------------------------------------//
 
@@ -58,6 +54,8 @@ public class UI : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         shop = FindObjectOfType<Shop>();
         area = FindObjectOfType<AreaTrigger>();
+        boss = FindObjectOfType<Boss>();
+        trigger = FindObjectOfType<BossFightTrigger>();
     }
 
     void Update()
@@ -65,6 +63,7 @@ public class UI : MonoBehaviour
         Weapons();
         Player();
         Boss();
+        TriggerColliders();
     }
 
     //----------------------------------------------------//
@@ -72,7 +71,8 @@ public class UI : MonoBehaviour
     void Weapons()
     {
         //Reload
-        reloadTimeSlider.value = shooting.currentReloadCooldown;
+        shootCooldownSlider.value = shooting.currentShootCooldown;
+        reloadingSlider.value = shooting.currentReloadCooldown;
 
         if (shooting.currentAmmo <= 0)
         {
@@ -95,9 +95,8 @@ public class UI : MonoBehaviour
         }
 
         //Ammo
-        currentAmmo.text = shooting.currentAmmo.ToString() + "/6";
+        currentAmmo.text = shooting.currentAmmo.ToString() + "/" + shooting.currentMagazineSize;
         totalAmmo.text = shooting.currentMaxAmmo.ToString();
-
     }
 
     private void Player()
@@ -118,16 +117,19 @@ public class UI : MonoBehaviour
     {
         if (area.playerIsInArea)
         {
-            areaWall.gameObject.SetActive(true);
+            areaText.gameObject.SetActive(true);
         }
         else
         {
-            areaWall.gameObject.SetActive(false);
+            areaText.gameObject.SetActive(false);
         }
     }
 
     void Boss()
     {
-        //BossHP.value = EnemyEndBossScript.Health;
+        if (trigger.startBossFight == true)
+        {
+            bossHP.value = boss.health;
+        }
     }
 }
