@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7633097313718136503}
-  - component: {fileID: 7633097313718136393}
+  - component: {fileID: 4538820079549717835}
   - component: {fileID: 7633097313718136502}
   - component: {fileID: 7633097313718136392}
   m_Layer: 0
@@ -34,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7633097313718136393
+--- !u!114 &4538820079549717835
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,12 +43,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7633097313718136500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25a6ea7ae3e3f4041b3def256ed40d98, type: 3}
+  m_Script: {fileID: 11500000, guid: 0afc9ec03838c1a4c84497107e2dab0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  ViewDistance: 30
-  PatrolPoints:
+  health: 30
+  damage: 10
+  viewDistance: 50
+  coins: 10
+  patrolPoints:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -58,9 +61,20 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  Health: 30
-  DamageAmount: 10
-  DeathParticle: {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  attackCooldown: 3
+  deathParticle: {fileID: 3522857961947453499, guid: 61841d3dee1056f46bf329f47b2134a8, type: 3}
 --- !u!195 &7633097313718136502
 NavMeshAgent:
   m_ObjectHideFlags: 0
