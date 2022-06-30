@@ -17,6 +17,7 @@ public abstract class Weapons : MonoBehaviour
     //bullet
     public GameObject bulletPrefab;
     public float bulletSpeed;
+    private Transform bulletSpawnLocation;
 
     //Cooldown
     public float shootCooldown;
@@ -27,11 +28,13 @@ public abstract class Weapons : MonoBehaviour
     //References
     private CharacterController player;
     private Camera playerCamera;
+    private Enemy enemy;
 
     private void Start()
     {
         player = FindObjectOfType<CharacterController>();
         playerCamera = player.transform.GetChild(0).GetComponent<Camera>();
+        bulletSpawnLocation = FindObjectOfType<FindBulletSpawnLocation>().transform;
     }
 
     public virtual void Update()
@@ -56,11 +59,15 @@ public abstract class Weapons : MonoBehaviour
     {
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit Hit, range))
         {
-            //Enemy's take Damage
+            enemy = Hit.transform.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
+            }
         }
 
         //Instantiate Bullet
-        GameObject bullet = Instantiate(bulletPrefab, weapon.transform.position, weapon.transform.rotation);
+        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnLocation.position, bulletSpawnLocation.rotation);
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         bulletRb.AddForce(weapon.transform.forward * (bulletSpeed * Time.deltaTime));
         Destroy(bullet.gameObject, 1);

@@ -15,7 +15,7 @@ public class BossFightTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            UIScript.BossHP.gameObject.SetActive(true);
+            UIScript.bossHP.gameObject.SetActive(true);
         }
     }
 
@@ -23,7 +23,7 @@ public class BossFightTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            UIScript.BossHP.gameObject.SetActive(false);
+            UIScript.bossHP.gameObject.SetActive(false);
         }
     }
 }

@@ -5,8 +5,6 @@ using UnityEngine.AI;
 
 public class EnemyZombieBoss : MonoBehaviour
 {
-    private lvl02 WinScript;
-
     //Agent
     public float ViewDistance = 100f;
     private NavMeshAgent MeshAgent;
@@ -30,7 +28,6 @@ public class EnemyZombieBoss : MonoBehaviour
 
     private void Start()
     {
-        WinScript = FindObjectOfType<lvl02>();
         Player = FindObjectOfType<CharacterControlScript>();
         ShopScript = FindObjectOfType<Shop>();
         MeshAgent.speed = Random.Range(5, 12);
@@ -73,7 +70,7 @@ public class EnemyZombieBoss : MonoBehaviour
         //PlayerDamage
         if (Vector3.Distance(transform.position, Player.transform.position) < 4f && DamageTimeout <= 0f)
         {
-            Player.PlayerHealth = Player.PlayerHealth - DamageAmount;
+            Player.playerHealth = Player.playerHealth - DamageAmount;
             DamageTimeout = 3f;
         }
 
@@ -88,7 +85,6 @@ public class EnemyZombieBoss : MonoBehaviour
     void Die()
     {
         ShopScript.Coins += 10f;
-        WinScript.kills += 1f;
         Instantiate(DeathParticle, new Vector3(transform.position.x, transform.position.y + 4f, transform.position.z), Quaternion.Euler(90, 0, 0));
         Destroy(gameObject);
     }

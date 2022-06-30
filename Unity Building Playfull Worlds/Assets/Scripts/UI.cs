@@ -2,168 +2,132 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
-    private EnemyEndboss EnemyEndBossScript;
-    private lvl02 lvl02Script;
-    private CharacterControlScript CharacterControlScript;
-    private Shooting ShootingScript;
-    private Ability AbilityScript;
-    private Shop ShopScript;
-
     //Abilities
     public Text superFlash;
     public Text dubbleJump;
 
     //Health
-    public Slider HealthSlider;
+    public Slider healthSlider;
 
     //Ammo
-    public Text CurrentAmmo;
-    public Text TotalAmmo;
+    public Text currentAmmo;
+    public Text totalAmmo;
 
     //reload
-    public Slider ReloadingSlider;
-    public Slider ReloadTimeSlider;
+    public Slider reloadingSlider;
+    public Slider reloadTimeSlider;
     public Text needToReloadText;
 
     //Shop
-    public Text CoinsText;
-    public Text ShopText;
+    public Text coinsText;
+    public Text shopText;
 
     //Kills
     public Text killCounter;
 
     //Boss
     public Text aAreaHasOpened;
-    public Text BossWall;
-    public Slider BossHP;
+    public Text areaWall;
+    public Slider bossHP;
 
     //Lose
-    public Text YouLost;
+    public Text youLost;
     public Text pressEtoStartAgain;
 
     //Win
-    public Text Win;
+    public Text win;
+
+    //References
+    private Shooting shooting;
+    private CharacterControlScript player;
+    private Ability ability;
+    private GameManager gameManager;
+    private Shop shop;
+    private AreaTrigger area;
 
     //--------------------------------------------//
 
     void Start()
     {
-        EnemyEndBossScript = FindObjectOfType<EnemyEndboss>();
-        lvl02Script = FindObjectOfType<lvl02>();
-        CharacterControlScript = FindObjectOfType<CharacterControlScript>();
-        ShootingScript = FindObjectOfType<Shooting>();
-        AbilityScript = FindObjectOfType<Ability>();
-        ShopScript = FindObjectOfType<Shop>();
+        shooting = FindObjectOfType<Shooting>();
+        player = FindObjectOfType<CharacterControlScript>();
+        ability = FindObjectOfType<Ability>();
+        gameManager = FindObjectOfType<GameManager>();
+        shop = FindObjectOfType<Shop>();
+        area = FindObjectOfType<AreaTrigger>();
     }
 
     void Update()
     {
-        //Health();
-        //CalcAmmo();
-        //Reload();
-        //ReloadCooldown();
-        //Abilities();
-        //Shop();
-        //KillCounter();
-        //Boss();
+        Weapons();
+        Player();
+        Boss();
     }
 
     //----------------------------------------------------//
 
-    public void Play()
+    void Weapons()
     {
-        SceneManager.LoadScene("Level01&02");
+        //Reload
+        reloadTimeSlider.value = shooting.currentReloadCooldown;
+
+        if (shooting.currentAmmo <= 0)
+        {
+            needToReloadText.gameObject.SetActive(true);
+        }
+        else
+        {
+            needToReloadText.gameObject.SetActive(false);
+        }
+
+        if (shooting.currentReloadCooldown >= 0.01f)
+        {
+            reloadingSlider.gameObject.SetActive(true);
+            needToReloadText.text = "Reloading...";
+        }
+        else
+        {
+            reloadingSlider.gameObject.SetActive(false);
+            needToReloadText.text = "Reload!";
+        }
+
+        //Ammo
+        currentAmmo.text = shooting.currentAmmo.ToString() + "/6";
+        totalAmmo.text = shooting.currentMaxAmmo.ToString();
+
     }
 
-    public void Quit()
+    private void Player()
     {
-        Application.Quit();
+        healthSlider.value = player.playerHealth;
+        coinsText.text = shop.Coins.ToString();
+        killCounter.text = gameManager.kills.ToString() + " / 100";
+        if (gameManager.kills == gameManager.killsYouNeedToGet)
+        {
+            aAreaHasOpened.gameObject.SetActive(true);
+        }
+
+        superFlash.text = ability.superFlashAmount.ToString();
+        dubbleJump.text = ability.dubbleJumpAmount.ToString();
     }
 
+    void TriggerColliders()
+    {
+        if (area.playerIsInArea)
+        {
+            areaWall.gameObject.SetActive(true);
+        }
+        else
+        {
+            areaWall.gameObject.SetActive(false);
+        }
+    }
 
-    //void ReloadCooldown()
-    //{
-    //    ReloadTimeSlider.value = ShootingScript.currentReloadTime;
-    //}
-
-    //void Health()
-    //{
-    //    HealthSlider.value = CharacterControlScript.PlayerHealth;
-    //}
-
-    //void CalcAmmo()
-    //{
-    //    if (ShootingScript.CurrentWeapon == "Pistol")
-    //    {
-    //        CurrentAmmo.text = ShootingScript.PistolArray[1].ToString() + "/6";
-    //        TotalAmmo.text = ShootingScript.PistolArray[2].ToString();
-    //    }
-
-    //    if (ShootingScript.CurrentWeapon == "Shotgun")
-    //    {
-    //        CurrentAmmo.text = ShootingScript.ShotgunArray[1].ToString() + "/2";
-    //        TotalAmmo.text = ShootingScript.ShotgunArray[2].ToString();
-    //    }
-
-    //    if (ShootingScript.CurrentWeapon == "Machinegun")
-    //    {
-    //        CurrentAmmo.text = ShootingScript.MachinegunArray[1].ToString() + "/32";
-    //        TotalAmmo.text = ShootingScript.MachinegunArray[2].ToString();
-    //    }
-    //}
-
-    //void Reload()
-    //{
-    //    ReloadTimeSlider.value = ShootingScript.currentReloadTime;
-
-    //    //Need te reload?
-    //    if (ShootingScript.currentAmmo <= 0f)
-    //    {
-    //        needToReloadText.gameObject.SetActive(true);
-    //    }
-
-    //    if (ShootingScript.currentAmmo >= 0.1f && ShootingScript.reloadCooldown <= 0f)
-    //    {
-    //        needToReloadText.gameObject.SetActive(false);
-    //    }
-
-    //    //Reload Text
-    //    if (ShootingScript.reloadCooldown >= 0.01f)
-    //    {
-    //        ReloadingSlider.gameObject.SetActive(true);
-    //        needToReloadText.text = "Reloading...";
-    //    }
-
-    //    if (ShootingScript.reloadCooldown <= 0f)
-    //    {
-    //        ReloadingSlider.gameObject.SetActive(false);
-    //        needToReloadText.text = "Reload!";
-    //    }
-    //}
-
-    //void Abilities()
-    //{
-    //    superFlash.text = AbilityScript.superFlashAmount.ToString();
-    //    dubbleJump.text = AbilityScript.dubbleJumpAmount.ToString();
-    //    ReloadingSlider.value = ShootingScript.reloadCooldown;
-    //}
-
-    //void Shop()
-    //{
-    //    CoinsText.text = ShopScript.Coins.ToString();
-    //}
-
-    //void KillCounter()
-    //{
-    //    killCounter.text = lvl02Script.kills.ToString() + " / 100";
-    //}
-
-    //void Boss()
-    //{
-    //    BossHP.value = EnemyEndBossScript.Health;
-    //}
+    void Boss()
+    {
+        //BossHP.value = EnemyEndBossScript.Health;
+    }
 }

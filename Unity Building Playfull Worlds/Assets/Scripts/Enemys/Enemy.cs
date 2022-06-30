@@ -110,7 +110,7 @@ public abstract class Enemy : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.transform.position) < 4f && state == State.Attack && attackCooldown <= 0f)
         {
-            player.PlayerHealth -= damage;
+            player.playerHealth -= damage;
             currentAttackCooldown = attackCooldown;
         }
     }

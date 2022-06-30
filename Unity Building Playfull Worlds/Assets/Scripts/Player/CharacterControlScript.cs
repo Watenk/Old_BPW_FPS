@@ -24,7 +24,7 @@ public class CharacterControlScript : MonoBehaviour
     public Vector3 Velocity;
 
     //HP
-    public float PlayerHealth = 100f;
+    public float playerHealth = 100f;
 
 
     private void Start()
@@ -37,7 +37,7 @@ public class CharacterControlScript : MonoBehaviour
 
     void Update()
     {
-        if (PlayerHealth >= 0.01)
+        if (playerHealth >= 0.01)
         {
             MouseMovement();
             KeyboardMovement();
@@ -103,9 +103,9 @@ public class CharacterControlScript : MonoBehaviour
 
     void Lose()
     {
-        if (PlayerHealth <= 0f)
+        if (playerHealth <= 0f)
         {
-            UIScript.YouLost.gameObject.SetActive(true);
+            UIScript.youLost.gameObject.SetActive(true);
             UIScript.pressEtoStartAgain.gameObject.SetActive(true);
 
             if (Input.GetKeyDown("e"))

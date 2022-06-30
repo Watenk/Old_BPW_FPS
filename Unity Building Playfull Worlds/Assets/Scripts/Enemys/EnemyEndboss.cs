@@ -131,7 +131,7 @@ public class EnemyEndboss : MonoBehaviour
         //PlayerDamage
         if (Vector3.Distance(transform.position, Player.transform.position) < 4f && state == State.Attack && DamageTimeout <= 0f)
         {
-            Player.PlayerHealth = Player.PlayerHealth - DamageAmount;
+            Player.playerHealth = Player.playerHealth - DamageAmount;
             DamageTimeout = 5f;
         }
 
@@ -145,7 +145,7 @@ public class EnemyEndboss : MonoBehaviour
     void Die()
     {
         ShopScript.Coins += 10000f;
-        UIScript.Win.gameObject.SetActive(true);
+        UIScript.win.gameObject.SetActive(true);
         Instantiate(DeathParticle, new Vector3(transform.position.x, transform.position.y + 10f, transform.position.z), Quaternion.Euler(90, 0, 0));
         Destroy(gameObject);
     }

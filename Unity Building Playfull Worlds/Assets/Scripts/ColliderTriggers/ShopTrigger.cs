@@ -17,7 +17,7 @@ public class ShopTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            UIScript.ShopText.gameObject.SetActive(true);
+            UIScript.shopText.gameObject.SetActive(true);
             ShopScript.ShopActive = true;
         }
     }
@@ -26,7 +26,7 @@ public class ShopTrigger : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            UIScript.ShopText.gameObject.SetActive(false);
+            UIScript.shopText.gameObject.SetActive(false);
             ShopScript.ShopActive = false;
         }
     }
